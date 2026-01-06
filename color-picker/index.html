@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>カラーピッカー｜Simple Tools</title>
+    <meta name="description" content="画像から色を抽出したり、ウェブ制作に役立つ色見本を作成できる無料Webツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>カラーピッカー</h1>
+    </header>
+
+    <main class="two-col-layout">
+        <div class="tool-container">
+            <div id="drop-zone" class="drop-zone">
+                <div class="tool-icon" style="font-size: 3rem;">🖼️</div>
+                <p>画像をドロップするか、クリックしてアップロード</p>
+            </div>
+            <div id="preview-container">
+                <canvas id="preview-canvas"></canvas>
+            </div>
+            <input type="file" id="file-input" accept="image/*">
+        </div>
+
+        <div class="info-panel">
+            <div class="info-card">
+                <h2>選択した色</h2>
+                <div id="selected-color-preview" class="selected-color-preview">#8b5cf6</div>
+                <div class="color-values">
+                    <div class="color-value-row">
+                        <span>HEX</span>
+                        <span id="value-hex">#8b5cf6</span>
+                        <button class="copy-btn" data-target="value-hex">📋</button>
+                    </div>
+                    <div class="color-value-row">
+                        <span>RGB</span>
+                        <span id="value-rgb">rgb(139, 92, 246)</span>
+                        <button class="copy-btn" data-target="value-rgb">📋</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h2>おすすめパレット</h2>
+                <div id="palette-grid" class="palette-grid">
+                    <!-- 生成された色がここに入ります -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">クリップボードにコピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/color-picker.js"></script>
+</body>
+
+</html>

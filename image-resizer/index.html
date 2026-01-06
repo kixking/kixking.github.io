@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>画像リサイズツール｜Simple Tools</title>
+    <meta name="description" content="ブラウザ内で安全に画像をリサイズ・変換できる無料Webツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>画像リサイズツール</h1>
+    </header>
+
+    <main class="two-col-layout">
+        <div class="tool-container">
+            <div id="drop-zone" class="drop-zone">
+                <div class="tool-icon" style="font-size: 3rem;">📸</div>
+                <p>画像をドロップするか、クリックしてアップロード</p>
+            </div>
+            <div id="preview-container">
+                <img id="preview-image" src="" alt="Preview">
+                <p id="original-info" style="color: var(--text-muted); font-size: 0.875rem;"></p>
+            </div>
+            <input type="file" id="file-input" accept="image/*">
+        </div>
+
+        <div class="info-panel">
+            <div class="info-card">
+                <h2>リサイズ設定</h2>
+                <div class="control-group">
+                    <div class="input-row">
+                        <label for="width-input">幅 (px)</label>
+                        <input type="number" id="width-input" placeholder="幅">
+                    </div>
+                    <div class="input-row">
+                        <label for="height-input">高さ (px)</label>
+                        <input type="number" id="height-input" placeholder="高さ">
+                    </div>
+                    <div class="toggle-row">
+                        <input type="checkbox" id="aspect-lock" checked>
+                        <label for="aspect-lock"
+                            style="font-size: 0.875rem; color: var(--text-muted);">アスペクト比を固定</label>
+                    </div>
+                    <div class="select-row">
+                        <label for="format-select">出力形式</label>
+                        <select id="format-select">
+                            <option value="image/png">PNG</option>
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/webp">WebP</option>
+                        </select>
+                    </div>
+                    <button id="download-btn" class="action-btn" disabled>リサイズして保存</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">ダウンロードを開始しました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/image-resizer.js"></script>
+</body>
+
+</html>

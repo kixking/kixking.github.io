@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>Base64変換ツール｜Simple Tools</title>
+    <meta name="description" content="テキストをBase64形式にエンコード、またはBase64をデコードできる無料Webツールです。UTF-8（日本語）に完全対応。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>Base64変換ツール</h1>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="conversion-controls">
+                <div class="mode-switch">
+                    <button class="mode-btn active" data-mode="encode">エンコード</button>
+                    <button class="mode-btn" data-mode="decode">デコード</button>
+                </div>
+            </div>
+
+            <div class="text-areas">
+                <div class="text-area-group">
+                    <label id="input-label">
+                        入力テキスト
+                        <button class="copy-btn" id="clear-input">消去</button>
+                    </label>
+                    <textarea id="input-text" placeholder="ここに変換したい文字を入力してください..."></textarea>
+                </div>
+                <div class="text-area-group">
+                    <label id="output-label">
+                        変換結果
+                        <button class="copy-btn" id="copy-output">コピー</button>
+                    </label>
+                    <textarea id="output-text" readonly placeholder="結果がここに表示されます..."></textarea>
+                </div>
+            </div>
+
+            <div class="desc-card">
+                <h3>Base64変換とは？</h3>
+                <p>
+                    Base64はデータを64種類の文字（A-Z, a-z, 0-9, +, /）で表現するエンコーディング方式です。
+                    主にバイナリデータをテキスト形式で扱いたい場合や、認証情報、データURIスキームなどで利用されます。
+                    当ツールは日本語（UTF-8）の文字列も正しく変換・復元できます。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">クリップボードにコピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/base64-converter.js"></script>
+</body>
+
+</html>

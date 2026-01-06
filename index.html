@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
-     crossorigin="anonymous"></script>
-     
-  <meta charset="UTF-8" />
-  <title>文字数カウントツール｜無料Webツール</title>
-  <meta name="description" content="入力した文章の文字数・行数を即座にカウントする無料Webツールです。" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Tools | 便利ツール集</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
+
 <body>
   <header>
-    <h1>文字数カウントツール</h1>
+    <h1>Simple Tools</h1>
+    <p class="subtitle">シンプルで使いやすい便利ツール集</p>
+  </header>
+
+  <main class="tools-grid">
+    <a href="/moji-counter/" class="tool-card">
+      <div class="tool-icon">📝</div>
+      <span class="badge text">Text</span>
+      <h2>文字数カウンター</h2>
+      <p>入力した文章の文字数、行数、空白の有無などをリアルタイムで集計します。</p>
+    </a>
+
+    <a href="/color-picker/" class="tool-card">
+      <div class="tool-icon">🎨</div>
+      <span class="badge image">Image</span>
+      <h2>カラーピッカー</h2>
+      <p>ウェブ制作に役立つ色見本の作成や、画像からの色抽出ツールです。</p>
+    </a>
+
+    <a href="/image-resizer/" class="tool-card">
+      <div class="tool-icon">📸</div>
+      <span class="badge image">Image</span>
+      <h2>画像リサイズ</h2>
+      <p>複数の画像（現在は1枚ずつ）をまとめてリサイズ・変換。プライバシーに配慮したブラウザ内処理。</p>
+    </a>
+    <a href="/url-encoder/" class="tool-card">
+      <div class="tool-icon">🔗</div>
+      <span class="badge text">Text</span>
+      <h2>URLエンコード</h2>
+      <p>日本語URLの作成やパラメータの解析に。URLエンコードとデコードをリアルタイムで行います。</p>
+    </a>
+    <a href="/base64-converter/" class="tool-card">
+      <div class="tool-icon">🔡</div>
+      <span class="badge text">Text</span>
+      <h2>Base64変換</h2>
+      <p>テキストやバイナリデータのBase64エンコード・デコード。日本語(UTF-8)にも対応。</p>
+    </a>
+  </main>
+
+  <footer>
     <nav>
       <a href="/about.html">サイト概要</a>
       <a href="/privacy.html">プライバシーポリシー</a>
-      <!-- <a href="/contact.html">お問い合わせ</a> -->
     </nav>
-  </header>
-
-  <main>
-    <section>
-      <h2>使い方</h2>
-      <p>下のテキストエリアに文章を入力すると、文字数を自動で表示します。</p>
-    </section>
-
-    <section>
-      <textarea id="text" rows="8"></textarea>
-      <p>文字数：<strong id="count">0</strong></p>
-    </section>
-  </main>
-
-  <script src="/assets/js/main.js"></script>
+    <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+  </footer>
 </body>
+
 </html>
