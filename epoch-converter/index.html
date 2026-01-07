@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>UNIX時間変換ツール｜Simple Tools</title>
+    <meta name="description" content="UNIXタイムスタンプと日時（JST/UTC）をリアルタイムで相互変換できる無料Webツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .current-time-container {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .current-time-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-hover);
+            font-family: monospace;
+            margin: 0.5rem 0;
+            word-break: break-all;
+        }
+
+        .converter-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .converter-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .input-inline-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+
+        .date-input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) auto repeat(3, 1fr);
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            .date-input-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .date-input-grid span {
+                display: none;
+            }
+        }
+
+        .date-input-grid input {
+            padding: 8px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .date-input-grid span {
+            text-align: center;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .result-box {
+            background: rgba(15, 23, 42, 0.4);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--glass-border);
+            margin-top: 1rem;
+            min-height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .result-text {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--text);
+            word-break: break-all;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>UNIX時間変換ツール</h1>
+        <p class="subtitle">タイムスタンプと日時の相互変換をスムーズに</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <!-- Current Time -->
+            <section class="current-time-container">
+                <div style="font-size: 0.9rem; color: var(--text-muted);">現在のUNIXタイムスタンプ</div>
+                <div id="current-ts" class="current-time-value">---</div>
+                <div id="current-date" style="font-size: 1rem; color: var(--text); opacity: 0.8;">---</div>
+            </section>
+
+            <!-- TS -> Date -->
+            <section class="converter-section">
+                <h2>🕒 タイムスタンプを日時に変換</h2>
+                <div class="input-inline-group">
+                    <div class="text-area-group" style="width: 100%;">
+                        <label for="ts-input">Unixタイムスタンプ (秒 or ミリ秒)</label>
+                        <input type="text" id="ts-input" placeholder="例: 1736225686">
+                    </div>
+                </div>
+                <div class="result-box">
+                    <div id="ts-to-date-result" class="result-text">---</div>
+                    <button class="copy-btn" data-target="ts-to-date-result">コピー</button>
+                </div>
+                <div id="ts-to-date-utc-result"
+                    style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; padding-left: 1.25rem;">
+                    UTC: ---
+                </div>
+            </section>
+
+            <!-- Date -> TS -->
+            <section class="converter-section">
+                <h2>📅 日時をタイムスタンプに変換</h2>
+                <div class="text-area-group">
+                    <label>年月日・時分秒 (ローカル時間)</label>
+                    <div class="date-input-grid">
+                        <input type="number" id="year" placeholder="2026" min="1970">
+                        <span>/</span>
+                        <input type="number" id="month" placeholder="1" min="1" max="12">
+                        <span>/</span>
+                        <input type="number" id="day" placeholder="7" min="1" max="31">
+                        <span>&nbsp;</span>
+                        <input type="number" id="hour" placeholder="0" min="0" max="23">
+                        <span>:</span>
+                        <input type="number" id="minute" placeholder="0" min="0" max="59">
+                        <span>:</span>
+                        <input type="number" id="second" placeholder="0" min="0" max="59">
+                    </div>
+                </div>
+                <div class="result-box">
+                    <div id="date-to-ts-result" class="result-text">---</div>
+                    <button class="copy-btn" data-target="date-to-ts-result">コピー</button>
+                </div>
+            </section>
+
+            <div class="desc-card">
+                <h3>このツールについて</h3>
+                <p>
+                    1970年1月1日 00:00:00 UTC からの経過秒数である「UNIXタイムスタンプ」と、人間が読める形式の日時を相互に変換します。
+                    入力フィールドに値を入力するとリアルタイムで計算結果が表示されます。
+                    タイムスタンプは「秒」単位と「ミリ秒」単位の両方を自動的に判別して処理します。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/epoch-converter.js"></script>
+</body>
+
+</html>

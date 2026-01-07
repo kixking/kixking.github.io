@@ -25,46 +25,180 @@
     <p class="subtitle">シンプルで使いやすい便利ツール集</p>
   </header>
 
+  <div class="filter-container">
+    <button class="filter-chip active" data-filter="all">すべて</button>
+    <button class="filter-chip" data-filter="text">テキスト</button>
+    <button class="filter-chip" data-filter="image">画像</button>
+    <button class="filter-chip" data-filter="utility">便利ツール</button>
+    <button class="filter-chip" data-filter="security">セキュリティ</button>
+  </div>
+
   <main class="tools-grid">
-    <a href="/moji-counter/" class="tool-card">
+    <a href="/moji-counter/" class="tool-card" data-category="text">
       <div class="tool-icon">📝</div>
       <span class="badge text">Text</span>
       <h2>文字数カウンター</h2>
       <p>入力した文章の文字数、行数、空白の有無などをリアルタイムで集計します。</p>
     </a>
 
-    <a href="/color-picker/" class="tool-card">
+    <a href="/color-picker/" class="tool-card" data-category="image">
       <div class="tool-icon">🎨</div>
       <span class="badge image">Image</span>
       <h2>カラーピッカー</h2>
       <p>ウェブ制作に役立つ色見本の作成や、画像からの色抽出ツールです。</p>
     </a>
 
-    <a href="/image-resizer/" class="tool-card">
+    <a href="/image-resizer/" class="tool-card" data-category="image">
       <div class="tool-icon">📸</div>
       <span class="badge image">Image</span>
       <h2>画像リサイズ</h2>
       <p>複数の画像（現在は1枚ずつ）をまとめてリサイズ・変換。プライバシーに配慮したブラウザ内処理。</p>
     </a>
-    <a href="/url-encoder/" class="tool-card">
+    <a href="/url-encoder/" class="tool-card" data-category="text">
       <div class="tool-icon">🔗</div>
       <span class="badge text">Text</span>
       <h2>URLエンコード</h2>
       <p>日本語URLの作成やパラメータの解析に。URLエンコードとデコードをリアルタイムで行います。</p>
     </a>
-    <a href="/base64-converter/" class="tool-card">
+    <a href="/base64-converter/" class="tool-card" data-category="text">
       <div class="tool-icon">🔡</div>
       <span class="badge text">Text</span>
       <h2>Base64変換</h2>
       <p>テキストやバイナリデータのBase64エンコード・デコード。日本語(UTF-8)にも対応。</p>
     </a>
-    <a href="/csv-to-rag/" class="tool-card">
+    <a href="/csv-to-rag/" class="tool-card" data-category="text">
       <div class="tool-icon">📄</div>
       <span class="badge text">Text</span>
       <h2>CSV to RAG</h2>
       <p>CSVをLLMのRAG用に最適化したMarkdown形式に変換。検索精度を高める構造化データを作成します。</p>
     </a>
+    <a href="/password-generator/" class="tool-card" data-category="security">
+      <div class="tool-icon">🔑</div>
+      <span class="badge security">Security</span>
+      <h2>パスワード生成器</h2>
+      <p>安全で強力なパスワードをランダムに一括生成。桁数や使用文字種を自由にカスタマイズ可能です。</p>
+    </a>
+    <a href="/json-formatter/" class="tool-card" data-category="text">
+      <div class="tool-icon">{}</div>
+      <span class="badge text">Text</span>
+      <h2>JSONフォーマッター</h2>
+      <p>JSONデータの整形・軽量化・バリデーション。シングルクォート等の簡易修復機能も搭載。</p>
+    </a>
+    <a href="/unit-converter/" class="tool-card" data-category="utility">
+      <div class="tool-icon">⚖️</div>
+      <span class="badge utility">Utility</span>
+      <h2>単位変換ツール</h2>
+      <p>px/remの計算、データ容量、長さなど、Web制作や日常で役立つ単位をリアルタイム変換。</p>
+    </a>
+    <a href="/epoch-converter/" class="tool-card" data-category="utility">
+      <div class="tool-icon">🕒</div>
+      <span class="badge utility">Utility</span>
+      <h2>UNIX時間変換</h2>
+      <p>UNIXタイムスタンプと日時の相互変換をリアルタイムに。秒・ミリ秒両方の形式に対応しています。</p>
+    </a>
+    <a href="/client-info/" class="tool-card" data-category="utility">
+      <div class="tool-icon">🔍</div>
+      <span class="badge utility">Utility</span>
+      <h2>クライアント情報表示</h2>
+      <p>ブラウザや画面サイズ、システム情報など。JavaScriptで取得可能な環境情報を一覧表示します。</p>
+    </a>
+    <a href="/hash-generator/" class="tool-card" data-category="security">
+      <div class="tool-icon">🔑</div>
+      <span class="badge security">Security</span>
+      <h2>ハッシュ生成・比較</h2>
+      <p>SHA-256, SHA-512ハッシュやHMACを生成。ファイルチェックサムの計算や比較も可能です。</p>
+    </a>
   </main>
+
+  <section class="info-section">
+    <div class="info-inner">
+      <h2>Simple Tools について</h2>
+      <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: var(--text-muted); line-height: 1.8;">
+        Simple Tools は、「速さ」「安全性」「使いやすさ」を追求したWebツールプラットフォームです。
+        日々の開発業務やクリエイティブな作業において、インストール不要で即座に使える便利な道具を提供することを目指しています。
+      </p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>✨ 1. インストール不要、一瞬で解決</h3>
+          <p>
+            全てのツールはブラウザ上で動作するため、ソフトウェアのインストールや会員登録は一切不要です。
+            URLをクリックするだけで、文字数カウント、画像リサイズ、コード整形などの面倒な作業をその場で完了できます。
+            忙しい開発者やクリエイターの貴重な時間を無駄にしません。
+          </p>
+        </div>
+        <div class="content-block">
+          <h3>🔒 2. プライバシー・ファースト</h3>
+          <p>
+            当サイトのツールの多くは、クライアントサイド（ブラウザ内）で処理が行われます。
+            入力したテキストやアップロードした画像がサーバーに保存・送信されることは基本的になく、
+            機密性の高いパスワード生成やエンコード作業も安心してお使いいただけます。
+            あなたのデータは常にあなたの管理下にあります。
+          </p>
+        </div>
+        <div class="content-block">
+          <h3>🎨 3. 洗練されたUI/UX</h3>
+          <p>
+            モダンなダークモードとグラスモーフィズムを採用。
+            視覚的な美しさだけでなく、直感的な操作感にこだわり、作業の邪魔をしないシンプルかつ強力なインターフェースを提供します。
+            どのデバイスからアクセスしても一貫して高いユーザビリティを提供します。
+          </p>
+        </div>
+      </div>
+
+      <div class="about-deep-dive"
+        style="margin-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
+        <div class="content-grid">
+          <div class="content-block">
+            <h4 style="color: var(--accent); margin-bottom: 1rem;">🛠 提供しているツールカテゴリ</h4>
+            <p style="font-size: 0.95rem;">
+              Simple Toolsでは、エンジニアリングから事務作業まで役立つ幅広いカテゴリをカバーしています。<br><br>
+              <strong>・テキストツール:</strong> 文字数カウント、大文字小文字変換、各種エンコーダー。<br>
+              <strong>・画像ツール:</strong> リサイズ、色抽出、フォーマット変換。<br>
+              <strong>・セキュリティ:</strong> 安全なハッシュ生成、HMAC署名、強力なパスワード作成。<br>
+              <strong>・開発者向け:</strong> JSON整形、UNIX時間変換、単位変換、環境情報の可視化。
+            </p>
+          </div>
+          <div class="content-block">
+            <h4 style="color: var(--accent); margin-bottom: 1rem;">🛡️ セキュリティへの取り組み</h4>
+            <p style="font-size: 0.95rem;">
+              Web Crypto APIなどのモダンなブラウザ標準機能を活用し、サーバー側での処理を極限まで排除しています。
+              これにより、パスワードや機密データがインターネットを介して送信されるリスクを最小限に抑えています。
+              ログの記録も行わないため、デリケートな情報も安心して処理いただけます。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-container" style="margin-top: 4rem;">
+        <h3>よくある質問 (FAQ)</h3>
+        <div class="faq-item">
+          <div class="faq-question">利用料金はかかりますか？</div>
+          <div class="faq-answer">
+            いいえ、全てのツールは完全に無料でお使いいただけます。将来的に有料化する予定もありません。
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">商用利用は可能ですか？</div>
+          <div class="faq-answer">
+            はい、個人・法人問わず、あらゆる用途で無料でご利用いただけます。生成されたデータや画像の権利もユーザーに帰属します。
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">オフラインでも動きますか？</div>
+          <div class="faq-answer">
+            一部のツールを除き、ページを一度読み込んでしまえば、インターネット接続がなくても動作するように設計されています（クライアントサイド処理のツールのみ）。
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">推奨ブラウザは何ですか？</div>
+          <div class="faq-answer">
+            Google Chrome, Firefox, Safari, Microsoft Edge の最新版で動作確認を行っています。IE（Internet Explorer）には対応しておりません。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <nav>
@@ -73,6 +207,32 @@
     </nav>
     <p>&copy; 2026 Simple Tools. All rights reserved.</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const toolCards = document.querySelectorAll('.tool-card');
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          // Remove active class from all chips
+          filterChips.forEach(c => c.classList.remove('active'));
+          // Add active class to clicked chip
+          chip.classList.add('active');
+
+          const filterValue = chip.getAttribute('data-filter');
+
+          toolCards.forEach(card => {
+            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>

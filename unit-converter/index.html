@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>単位変換ツール｜Simple Tools</title>
+    <meta name="description" content="pxとrem、データ容量、長さ、重さなど、様々な単位をリアルタイムで相互変換できる無料Webツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .converter-group {
+            margin-bottom: 3rem;
+        }
+
+        .converter-group h2 {
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .unit-input-group {
+            background: rgba(15, 23, 42, 0.4);
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .unit-input-group label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .unit-input-group .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .unit-input-group input {
+            background: transparent;
+            border: none;
+            padding: 4px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-radius: 0;
+            width: 100%;
+        }
+
+        .unit-input-group input:focus {
+            box-shadow: none;
+        }
+
+        .unit-input-group span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .compact-settings {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .compact-settings input {
+            width: 80px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>単位変換ツール</h1>
+        <p class="subtitle">デザイン、IT、日常の単位をリアルタイム変換</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <!-- Web Design -->
+            <section class="converter-group">
+                <h2>ウェブデザイン (Design)</h2>
+                <div class="compact-settings">
+                    <label>ベースフォントサイズ:</label>
+                    <input type="number" id="base-font-size" value="16">
+                    <span>px</span>
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">※rem値の計算基準になります</span>
+                </div>
+                <div class="unit-grid" data-group="design">
+                    <div class="unit-input-group">
+                        <label>Pixel</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="px" placeholder="0">
+                            <span>px</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>REM</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="rem" placeholder="0">
+                            <span>rem</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>EM</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="em" placeholder="0">
+                            <span>em</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>Point</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="pt" placeholder="0">
+                            <span>pt</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Storage -->
+            <section class="converter-group">
+                <h2>データ容量 (Storage)</h2>
+                <div class="unit-grid" data-group="storage">
+                    <div class="unit-input-group">
+                        <label>Byte</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="b" placeholder="0">
+                            <span>B</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>KiloByte</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="kb" placeholder="0">
+                            <span>KB</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>MegaByte</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="mb" placeholder="0">
+                            <span>MB</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>GigaByte</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="gb" placeholder="0">
+                            <span>GB</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>TeraByte</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="tb" placeholder="0">
+                            <span>TB</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Length -->
+            <section class="converter-group">
+                <h2>長さ (Length)</h2>
+                <div class="unit-grid" data-group="length">
+                    <div class="unit-input-group">
+                        <label>ミリメートル</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="mm" placeholder="0">
+                            <span>mm</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>センチメートル</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="cm" placeholder="0">
+                            <span>cm</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>メートル</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="m" placeholder="0">
+                            <span>m</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>キロメートル</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="km" placeholder="0">
+                            <span>km</span>
+                        </div>
+                    </div>
+                    <div class="unit-input-group">
+                        <label>インチ</label>
+                        <div class="input-wrapper">
+                            <input type="number" step="any" data-unit="inch" placeholder="0">
+                            <span>in</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="desc-card">
+                <h3>このツールについて</h3>
+                <p>
+                    エンジニアやデザイナー、日常の様々なシーンで必要となる単位変換を一箇所にまとめました。
+                    数値を入力すると、同じグループ内の他の単位へ即座に反映されます。
+                    ウェブデザインの項目では、ベースとなるフォントサイズ（デフォルト16px）を基準にremやemを計算します。
+                    データ容量の計算は 1KB = 1024B のバイナリ方式を採用しています。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/unit-converter.js"></script>
+</body>
+
+</html>

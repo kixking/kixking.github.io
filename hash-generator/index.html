@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>ハッシュ生成器 (SHA-256/512/HMAC)｜Simple Tools</title>
+    <meta name="description" content="SHA-256, SHA-512ハッシュやHMACをブラウザ上で安全に生成。ファイルのチェックサム計算やハッシュの比較も可能です。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>ハッシュ生成器</h1>
+        <p class="subtitle">高度な暗号ハッシュとHMACをブラウザで安全に計算</p>
+    </header>
+
+    <main class="two-col-layout">
+        <div class="tool-container">
+            <section class="control-panel">
+                <div class="input-row">
+                    <label>計算モード</label>
+                    <div class="toggle-group">
+                        <button id="mode-hash" class="toggle-btn active">Hash (一方向)</button>
+                        <button id="mode-hmac" class="toggle-btn">HMAC (共通鍵署名)</button>
+                    </div>
+                </div>
+
+                <div class="input-row" style="margin-top: 1.5rem;">
+                    <label for="algo-select">アルゴリズム</label>
+                    <select id="algo-select">
+                        <option value="SHA-256">SHA-256</option>
+                        <option value="SHA-512">SHA-512</option>
+                        <option value="SHA-384">SHA-384</option>
+                        <option value="SHA-1">SHA-1 (非推奨)</option>
+                    </select>
+                </div>
+
+                <div id="hmac-key-container" class="input-row" style="margin-top: 1.5rem; display: none;">
+                    <label for="hmac-key">秘密鍵 (Secret Key)</label>
+                    <input type="password" id="hmac-key" placeholder="HMAC計算に使用する秘密鍵（キー）を入力">
+                </div>
+
+                <div class="input-row" style="margin-top: 1.5rem;">
+                    <label>オプション (前処理)</label>
+                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="opt-trim"> トリム (空白削除)
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="opt-newline"> 改行を削除
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="opt-batch"> 一行ずつ処理 (Batch)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-row" style="margin-top: 1.5rem;">
+                    <label for="format-select">出力形式</label>
+                    <select id="format-select">
+                        <option value="hex-lower">16進数 (小文字)</option>
+                        <option value="hex-upper">16進数 (大文字)</option>
+                        <option value="base64">Base64</option>
+                    </select>
+                </div>
+                <div class="input-row" style="margin-top: 1.5rem;">
+                    <label>入力タイプ</label>
+                    <div class="toggle-group">
+                        <button id="input-text-btn" class="toggle-btn active">テキスト</button>
+                        <button id="input-file-btn" class="toggle-btn">ファイル</button>
+                    </div>
+                </div>
+
+                <div id="text-input-section" class="text-area-group" style="margin-top: 1.5rem;">
+                    <label for="input-text">入力データ</label>
+                    <textarea id="input-text" placeholder="ハッシュ化するテキストを入力してください..." rows="6"></textarea>
+                </div>
+
+                <div id="file-input-section" class="drop-zone" style="margin-top: 1.5rem; display: none;">
+                    <p>ファイルをドラッグ＆ドロップ、または選択</p>
+                    <input type="file" id="file-input" style="display: none;">
+                    <div id="file-info" class="file-info" style="display: none; margin-top: 0.5rem; font-size: 0.9rem;">
+                    </div>
+                </div>
+            </section>
+
+            <section class="result-panel">
+                <div class="result-header">
+                    <h3>出力結果</h3>
+                    <button id="copy-btn" class="copy-btn">コピー</button>
+                </div>
+                <div id="hash-output" class="result-display"
+                    style="word-break: break-all; font-family: monospace; min-height: 80px;">
+                    <!-- ハッシュ値がここに入ります -->
+                </div>
+
+                <div class="input-row" style="margin-top: 2rem;">
+                    <label for="compare-input">ハッシュ比較 (検証)</label>
+                    <input type="text" id="compare-input" placeholder="比較したいハッシュ値を入力">
+                    <div id="compare-result" style="margin-top: 0.5rem; font-weight: 600;"></div>
+                </div>
+            </section>
+
+            <div class="desc-card">
+                <h3>このツールについて</h3>
+                <p>
+                    このツールは、ブラウザ標準のWeb Crypto APIを使用してハッシュ計算を行います。
+                    入力したテキストやファイルの内容は外部サーバーに送信されることなく、お使いの端末内だけで完密に処理されるため、パスワードや秘密鍵のハッシュ化も安全に行えます。
+                </p>
+                <ul style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                    <li><strong>SHA-256/512:</strong> 現代の標準的な暗号ハッシュ関数です。</li>
+                    <li><strong>HMAC:</strong> 鍵付きハッシュ。データの改ざん防止と認証に使用されます。</li>
+                    <li><strong>ファイルチェックサム:</strong> 大容量ファイルもブラウザ内で高速に計算可能です。</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/hash-generator.js"></script>
+</body>
+
+</html>

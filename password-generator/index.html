@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>パスワード生成器｜Simple Tools</title>
+    <meta name="description" content="安全で強力なパスワードをランダムに生成する無料Webツールです。桁数や文字種を自由にカスタマイズ可能。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>パスワード生成器</h1>
+        <p class="subtitle">安全なパスワードを複雑な条件で一括生成</p>
+    </header>
+
+    <main class="two-col-layout">
+        <div class="tool-container">
+            <section class="control-panel">
+                <div class="input-row">
+                    <label for="password-length">パスワードの文字数 (4-24)</label>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <input type="range" id="length-slider" min="4" max="24" value="12" style="flex: 1;">
+                        <input type="number" id="length-number" min="4" max="24" value="12" style="width: 60px;">
+                    </div>
+                </div>
+
+                <div class="input-row" style="margin-top: 1.5rem;">
+                    <label for="generate-count">生成個数 (1-100)</label>
+                    <input type="number" id="generate-count" min="1" max="100" value="5">
+                </div>
+
+                <div class="text-area-group" style="margin-top: 1.5rem;">
+                    <label>使用する文字種</label>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-top: 0.5rem;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-upper" checked> 英大文字 (A-Z)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-lower" checked> 英小文字 (a-z)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-number" checked> 数字 (0-9)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-symbol" checked> 記号 (!@#$%...)
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="use-fullwidth"> 全角文字に変換
+                        </label>
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="action-btn" style="margin-top: 2rem; width: 100%;">パスワードを生成する</button>
+            </section>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="margin: 0;">生成結果</h2>
+                    <button id="copy-all-btn" class="copy-btn"
+                        style="padding: 4px 12px; font-size: 0.8rem;">すべてコピー</button>
+                </div>
+                <div id="results-list" class="results-list">
+                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">条件を設定して生成ボタンを押してください</p>
+                </div>
+            </div>
+
+            <div class="desc-card" style="margin-top: 1.5rem;">
+                <h3>セキュリティについて</h3>
+                <p>
+                    このツールはブラウザの標準セキュリティ機能（Web Crypto API）を使用して暗号学的に安全な乱数を生成しています。
+                    生成処理はすべてお使いのデバイス上で行われ、サーバーにデータが送信されることはありません。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/password-generator.js"></script>
+</body>
+
+</html>

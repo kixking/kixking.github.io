@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>JSONフォーマッター｜Simple Tools</title>
+    <meta name="description" content="JSONデータを美しく整形、または軽量化（Minify）する無料Webツールです。バリデーション機能付きでエラー箇所も特定可能。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>JSONフォーマッター</h1>
+        <p class="subtitle">JSONデータの整形・バリデーション・軽量化</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="conversion-controls"
+                style="display: flex; gap: 1rem; align-items: center; justify-content: flex-start; flex-wrap: wrap; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label for="indent-select" style="font-size: 0.9rem; color: var(--text-muted);">インデント:</label>
+                    <select id="indent-select"
+                        style="padding: 4px 8px; border-radius: 4px; background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); color: white;">
+                        <option value="2">2スペース</option>
+                        <option value="4">4スペース</option>
+                        <option value="tab">タブ</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="prettify-btn" class="action-btn" style="padding: 8px 16px; font-size: 0.9rem;">整形
+                        (Prettify)</button>
+                    <button id="minify-btn" class="action-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">軽量化
+                        (Minify)</button>
+                    <button id="fix-btn" class="action-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: rgba(139, 92, 246, 0.2); border: 1px solid var(--accent);">簡易修復
+                        (Fix)</button>
+                </div>
+            </div>
+
+            <div id="error-message"
+                style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #fca5a5; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.5;">
+                <!-- エラーメッセージがここに入ります -->
+            </div>
+
+            <div class="text-areas">
+                <div class="text-area-group">
+                    <label>
+                        入力 JSON
+                        <button class="copy-btn" id="clear-input">消去</button>
+                    </label>
+                    <textarea id="input-text" placeholder="ここにJSONをペーストしてください..."></textarea>
+                </div>
+                <div class="text-area-group">
+                    <label>
+                        結果
+                        <button class="copy-btn" id="copy-output">コピー</button>
+                    </label>
+                    <textarea id="output-text" readonly placeholder="結果がここに表示されます..."></textarea>
+                </div>
+            </div>
+
+            <div class="desc-card">
+                <h3>このツールについて</h3>
+                <p>
+                    難読化されたJSONを読みやすく整形したり、逆にデータ転送用に不要な空白を削除（Minify）したりできます。
+                    また、入力されたデータが正しいJSON形式かどうかをリアルタイムに検証します。
+                    「簡易修復」機能は、シングルクォートで囲まれたキーや値、末尾の不要なカンマなど、よくある形式エラーを自動的に修正して標準的なJSONに変換を試みます。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/json-formatter.js"></script>
+</body>
+
+</html>

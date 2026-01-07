@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>クライアント情報表示ツール｜Simple Tools</title>
+    <meta name="description" content="ブラウザや画面、ネットワーク情報、IPアドレスなど、JavaScriptで取得可能なクライアント情報を極限まで一覧表示する無料Webツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card-sub {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .info-card-sub h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--accent-hover);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table th,
+        .info-table td {
+            padding: 0.75rem 0;
+            text-align: left;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            width: 140px;
+        }
+
+        .info-table td {
+            color: var(--text);
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-granted {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-denied {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .status-prompt {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .info-table tr:last-child th,
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .refresh-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .font-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .font-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .ua-box {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>クライアント情報表示</h1>
+        <p class="subtitle">JavaScriptで取得可能な環境データを極限まで公開</p>
+    </header>
+
+    <main>
+        <div class="tool-container" style="max-width: 1200px; margin: 0 auto;">
+            <div class="refresh-section">
+                <button id="copy-json-btn" class="copy-btn" style="padding: 8px 16px;">JSONとして全てコピー</button>
+                <button id="refresh-btn" class="action-btn" style="width: auto; padding: 8px 20px;">更新</button>
+            </div>
+
+            <div class="info-grid">
+                <!-- IP & Network -->
+                <div class="info-card-sub">
+                    <h2>📶 接続情報 / IP</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>パブリック IP</th>
+                            <td id="info-ip">取得中...</td>
+                        </tr>
+                        <tr>
+                            <th>プロバイダ (ISP)</th>
+                            <td id="info-isp">取得中...</td>
+                        </tr>
+                        <tr>
+                            <th>都市 / 地域</th>
+                            <td id="info-geo">取得中...</td>
+                        </tr>
+                        <tr>
+                            <th>オンライン状態</th>
+                            <td id="info-online">---</td>
+                        </tr>
+                        <tr>
+                            <th>接続タイプ</th>
+                            <td id="info-net-type">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Browser/OS -->
+                <div class="info-card-sub">
+                    <h2>🌐 ブラウザ / OS</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>プラットフォーム</th>
+                            <td id="info-platform">---</td>
+                        </tr>
+                        <tr>
+                            <th>ブラウザ言語</th>
+                            <td id="info-language">---</td>
+                        </tr>
+                        <tr>
+                            <th>Cookie有効化</th>
+                            <td id="info-cookies">---</td>
+                        </tr>
+                        <tr>
+                            <th> doNotTrack</th>
+                            <td id="info-dnt">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Permissions -->
+                <div class="info-card-sub">
+                    <h2>🔒 権限 (Permissions)</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>位置情報</th>
+                            <td id="perm-geo">---</td>
+                        </tr>
+                        <tr>
+                            <th>通知</th>
+                            <td id="perm-notifications">---</td>
+                        </tr>
+                        <tr>
+                            <th>カメラ</th>
+                            <td id="perm-camera">---</td>
+                        </tr>
+                        <tr>
+                            <th>マイク</th>
+                            <td id="perm-microphone">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Hardware -->
+                <div class="info-card-sub">
+                    <h2>💻 ハードウェア</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>CPU論理コア数</th>
+                            <td id="info-cores">---</td>
+                        </tr>
+                        <tr>
+                            <th>メモリ (概算)</th>
+                            <td id="info-memory">---</td>
+                        </tr>
+                        <tr>
+                            <th>バッテリ状態</th>
+                            <td id="info-battery">---</td>
+                        </tr>
+                        <tr>
+                            <th>最大タッチ点数</th>
+                            <td id="info-touch">---</td>
+                        </tr>
+                        <tr>
+                            <th>ゲームパッド接続</th>
+                            <td id="info-gamepad">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- GPU -->
+                <div class="info-card-sub">
+                    <h2>🎮 GPU / レンダリング</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>GPU ベンダー</th>
+                            <td id="info-gpu-vendor">---</td>
+                        </tr>
+                        <tr>
+                            <th>GPU レンダラ</th>
+                            <td id="info-gpu-renderer">---</td>
+                        </tr>
+                        <tr>
+                            <th>WebGL バージョン</th>
+                            <td id="info-webgl-ver">---</td>
+                        </tr>
+                        <tr>
+                            <th>Max Texture Size</th>
+                            <td id="info-max-tex">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Screen & Viewport -->
+                <div class="info-card-sub">
+                    <h2>🖥 画面 / 表示領域</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>画面解像度</th>
+                            <td id="info-screen-res">---</td>
+                        </tr>
+                        <tr>
+                            <th>ピクセル比 (DPR)</th>
+                            <td id="info-screen-dpr">---</td>
+                        </tr>
+                        <tr>
+                            <th>表示領域 (Viewport)</th>
+                            <td id="info-view-size">---</td>
+                        </tr>
+                        <tr>
+                            <th>カラースキーマ</th>
+                            <td id="info-color-scheme">---</td>
+                        </tr>
+                        <tr>
+                            <th>フォントサイズ</th>
+                            <td id="info-base-font">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Storage -->
+                <div class="info-card-sub">
+                    <h2>🗄 ストレージ</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>総容量 (概算)</th>
+                            <td id="info-storage-quota">---</td>
+                        </tr>
+                        <tr>
+                            <th>使用量 (概算)</th>
+                            <td id="info-storage-usage">---</td>
+                        </tr>
+                        <tr>
+                            <th>使用率</th>
+                            <td id="info-storage-percent">---</td>
+                        </tr>
+                        <tr>
+                            <th>永続化状態</th>
+                            <td id="info-storage-persist">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Localization -->
+                <div class="info-card-sub">
+                    <h2>🇯🇵 地域 / 日時</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>タイムゾーン</th>
+                            <td id="info-timezone">---</td>
+                        </tr>
+                        <tr>
+                            <th>オフセット</th>
+                            <td id="info-tz-offset">---</td>
+                        </tr>
+                        <tr>
+                            <th>対応言語</th>
+                            <td id="info-lang-list">---</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Environment -->
+                <div class="info-card-sub">
+                    <h2>🛠 環境 / その他</h2>
+                    <table class="info-table">
+                        <tr>
+                            <th>WebDriver (自動)</th>
+                            <td id="info-env-bot">---</td>
+                        </tr>
+                        <tr>
+                            <th>PDF 表示対応</th>
+                            <td id="info-env-pdf">---</td>
+                        </tr>
+                        <tr>
+                            <th>リファラ</th>
+                            <td id="info-referrer">---</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Font Detection -->
+            <div class="info-card-sub" style="margin-bottom: 2rem;">
+                <h2>🔡 検出されたシステムフォント</h2>
+                <div id="font-list" class="font-list">
+                    <!-- フォントタグがここに入ります -->
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem;">
+                    ※一般的なフォント名について、ブラウザの描画幅を計測してインストール有無を推定しています。
+                </p>
+            </div>
+
+            <div class="ua-box">
+                <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--accent-hover);">User Agent:</div>
+                <div id="info-ua">---</div>
+            </div>
+
+            <div class="desc-card">
+                <h3>このツールについて</h3>
+                <p>
+                    このツールは、Webブラウザの標準APIのみを使用して取得可能な情報を網羅的に表示します。
+                    IPアドレスと地理情報の取得には外部APIを使用していますが、それ以外のデータは全てあなたのブラウザ内で処理されます。
+                    一部の情報（GPU詳細やメモリ量など）は、プライバシー保護のためにブラウザによって値が制限されたり、偽装されたりしている場合があります。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました！</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/client-info.js"></script>
+</body>
+
+</html>
