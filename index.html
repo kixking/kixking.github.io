@@ -8,6 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simple Tools | 便利ツール集</title>
   <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-4KCLTYQ3D1');
+  </script>
 </head>
 
 <body>
@@ -48,6 +57,12 @@
       <span class="badge text">Text</span>
       <h2>Base64変換</h2>
       <p>テキストやバイナリデータのBase64エンコード・デコード。日本語(UTF-8)にも対応。</p>
+    </a>
+    <a href="/csv-to-rag/" class="tool-card">
+      <div class="tool-icon">📄</div>
+      <span class="badge text">Text</span>
+      <h2>CSV to RAG</h2>
+      <p>CSVをLLMのRAG用に最適化したMarkdown形式に変換。検索精度を高める構造化データを作成します。</p>
     </a>
   </main>
 
