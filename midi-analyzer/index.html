@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>MIDIデータ解析｜Simple Tools</title>
+    <meta name="description" content="MIDIファイルをブラウザで詳細に解析。ヘッダー情報、トラック構成、イベント一覧を網羅的に出力します。サーバー送信なしで安全に処理。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Tone.js MIDI Library -->
+    <script src="https://unpkg.com/@tonejs/midi"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>MIDIデータ解析</h1>
+        <p class="subtitle">MIDIファイルの内部構造を詳細に可視化</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <section class="upload-section">
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon">🎹</div>
+                        <p>MIDIファイルをドラッグ＆ドロップ</p>
+                        <span>または</span>
+                        <button class="small-btn">ファイルを選択</button>
+                    </div>
+                    <input type="file" id="midi-file" accept=".mid,.midi" style="display: none;">
+                </div>
+            </section>
+
+            <div id="analysis-result" style="display: none; margin-top: 2rem;">
+                <section class="info-grid"
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="info-card">
+                        <span class="label">ファイル名</span>
+                        <div id="file-name" class="value">-</div>
+                    </div>
+                    <div class="info-card">
+                        <span class="label">フォーマット</span>
+                        <div id="midi-format" class="value">-</div>
+                    </div>
+                    <div class="info-card">
+                        <span class="label">解像度 (PPQ)</span>
+                        <div id="midi-ppq" class="value">-</div>
+                    </div>
+                    <div class="info-card">
+                        <span class="label">トラック数</span>
+                        <div id="track-count" class="value">-</div>
+                    </div>
+                </section>
+
+                <div class="tab-container" style="margin-bottom: 2rem;">
+                    <div class="tabs"
+                        style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem; margin-bottom: 1rem; overflow-x: auto;">
+                        <button class="tab-btn active" data-tab="header">ヘッダー/メタ</button>
+                        <button class="tab-btn" data-tab="tracks">トラック一覧</button>
+                        <button class="tab-btn" data-tab="events">詳細イベント一覧</button>
+                        <button class="tab-btn" data-tab="raw">RAWデータ (JSON)</button>
+                    </div>
+
+                    <div id="tab-header" class="tab-content active">
+                        <div class="table-wrapper">
+                            <table id="meta-events-table">
+                                <thead>
+                                    <tr>
+                                        <th>時間 (Tick)</th>
+                                        <th>秒</th>
+                                        <th>タイプ</th>
+                                        <th>詳細情報/内容</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Meta events will be dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="tab-tracks" class="tab-content">
+                        <div id="tracks-list">
+                            <!-- Track details will be dynamic -->
+                        </div>
+                    </div>
+
+                    <div id="tab-events" class="tab-content">
+                        <div class="filter-bar"
+                            style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center;">
+                            <div class="filter-group">
+                                <label for="track-filter">トラック:</label>
+                                <select id="track-filter" class="small-select">
+                                    <option value="all">すべて</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label for="type-filter">タイプ:</label>
+                                <select id="type-filter" class="small-select">
+                                    <option value="all">すべて</option>
+                                    <option value="note">ノート (演奏)</option>
+                                    <option value="control">コントロールチェンジ</option>
+                                    <option value="pitch">ピッチベンド</option>
+                                    <option value="other">その他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table id="full-events-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tick</th>
+                                        <th>Track</th>
+                                        <th>Event Type</th>
+                                        <th>Data 1</th>
+                                        <th>Data 2</th>
+                                        <th>Duration/Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="full-events-body">
+                                    <!-- Full events will be dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <p id="event-limit-msg"
+                            style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; display: none;">※
+                            パフォーマンスのため、最初の2000イベントのみ表示しています。</p>
+                    </div>
+
+                    <div id="tab-raw" class="tab-content">
+                        <div class="result-header" style="margin-bottom: 0.5rem;">
+                            <button id="copy-json-btn" class="secondary-btn small">JSONをコピー</button>
+                        </div>
+                        <textarea id="raw-json-output" readonly rows="15" placeholder="解析結果がここに表示されます..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desc-card" style="margin-top: 2rem;">
+                <h3>このツールについて</h3>
+                <p>
+                    このツールはブラウザ内でMIDIバイナリの詳細な解析を行います。アップロードしたファイルがサーバーに送信されることはありません。
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="color: var(--accent-hover); margin-bottom: 0.5rem;">💡 抽出可能な情報</h4>
+                    <ul style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                        <li><strong>ファイル全体:</strong> 形式、解像度、演奏時間など。</li>
+                        <li><strong>トラック情報:</strong> 各トラックの名称、楽器設定、イベント数。</li>
+                        <li><strong>メタイベント:</strong> テンポ、拍子、調性、歌詞、トラック名、著作権情報など。</li>
+                        <li><strong>チャンネルイベント:</strong> ノートオン/オフ、コントロールチェンジ、ピッチベンド、プログラムチェンジ。</li>
+                        <li><strong>解析ライブラリ:</strong> 高機能なMIDI解析に <a href="https://github.com/Tonejs/Midi"
+                                target="_blank" rel="noopener noreferrer"
+                                style="color: var(--accent); text-decoration: underline;">@tonejs/midi</a>（MIT
+                            License）を使用しています。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/midi-analyzer.js"></script>
+    <style>
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        .info-card .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card .value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            word-break: break-all;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--glass-border);
+            border-radius: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .track-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+
+        .track-name {
+            font-weight: 600;
+            color: var(--accent-hover);
+        }
+
+        .track-stats {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</body>
+
+</html>

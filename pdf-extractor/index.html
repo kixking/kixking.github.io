@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>PDFテキスト抽出｜Simple Tools</title>
+    <meta name="description" content="PDFファイルからテキストをブラウザで瞬時に抽出。サーバー送信なしで安全に処理。文字数カウントやテキスト保存も可能です。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>PDFテキスト抽出</h1>
+        <p class="subtitle">PDFからテキストデータを安全に抜き出し</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <section class="upload-section">
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon">📄</div>
+                        <p>PDFファイルをドラッグ＆ドロップ</p>
+                        <span>または</span>
+                        <button class="small-btn">ファイルを選択</button>
+                    </div>
+                    <input type="file" id="pdf-file" accept=".pdf" style="display: none;">
+                </div>
+            </section>
+
+            <section id="progress-container" class="progress-container" style="display: none; margin-top: 1.5rem;">
+                <div class="progress-bar-wrapper">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <p id="progress-text"
+                    style="font-size: 0.875rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem;">
+                    解析中... 0%</p>
+            </section>
+
+            <section class="result-panel pdf-result-panel" style="margin-top: 2rem;">
+                <div class="result-header">
+                    <h3>抽出結果</h3>
+                    <div class="button-group">
+                        <button id="copy-btn" class="secondary-btn small">コピー</button>
+                        <button id="download-txt" class="secondary-btn small">保存 (.txt)</button>
+                    </div>
+                </div>
+                <textarea id="output-text" readonly placeholder="PDFを読み込むとここにテキストが表示されます..." rows="12"></textarea>
+
+                <div id="stats" class="stats-row" style="display: none; margin-top: 1rem;">
+                    <span id="page-count">ページ数: -</span>
+                    <span id="char-count">文字数: -</span>
+                </div>
+            </section>
+
+            <div class="desc-card" style="margin-top: 2rem;">
+                <h3>このツールについて</h3>
+                <p>
+                    このツールはブラウザ内でPDFの解析を行います。アップロードしたファイルがサーバーに送信されることはありません。
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="color: var(--accent-hover); margin-bottom: 0.5rem;">💡 特徴</h4>
+                    <ul style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                        <li><strong>プライバシー保護:</strong> 処理は100%ローカル（あなたのPC内）で完結します。</li>
+                        <li><strong>ページ区切りの保持:</strong> 抽出時に各ページが分かりやすいよう区切り線を自動挿入します。</li>
+                        <li><strong>高速抽出:</strong> Mozilla製の強力なPDF解析ライブラリ <a href="https://github.com/mozilla/pdf.js"
+                                target="_blank" rel="noopener noreferrer"
+                                style="color: var(--accent); text-decoration: underline;">pdf.js</a>（<a
+                                href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank"
+                                rel="noopener noreferrer"
+                                style="color: var(--accent); text-decoration: underline;">Apache License
+                                2.0</a>）を使用しています。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/pdf-extractor.js"></script>
+</body>
+
+</html>
