@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8" />
+    <title>絵文字ジェネレーター｜Simple Tools</title>
+    <meta name="description" content="好きな文字・色・フォントでSlackなどで使える絵文字画像を生成できるツールです。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <style>
+        /* Tool specific styles */
+        .emoji-workspace {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .emoji-workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        #emoji-canvas {
+            width: 128px;
+            height: 128px;
+            background-color: transparent;
+            /* checkerboard pattern for transparency */
+            background-image:
+                linear-gradient(45deg, #ccc 25%, transparent 25%),
+                linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #ccc 75%),
+                linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        /* High-res display scaling */
+        .canvas-preview-wrapper {
+            transform: scale(1.5);
+            margin: 1.5rem 0;
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .color-inputs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .color-inputs input[type="color"] {
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            background: none;
+        }
+
+        .history-section {
+            margin-top: 3rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .history-item {
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .history-item:hover {
+            transform: scale(1.1);
+        }
+
+        .history-item img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="back-nav">
+            <a href="/">&larr; ホームへ戻る</a>
+        </nav>
+        <h1>絵文字ジェネレーター</h1>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="emoji-workspace">
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="input-text">テキスト (改行可)</label>
+                        <textarea id="input-text" rows="3" placeholder="文字を入力">完&#13;&#10;了</textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label>色設定</label>
+                        <div class="color-inputs">
+                            <div>
+                                <small>文字色</small>
+                                <input type="color" id="text-color" value="#FFFFFF">
+                            </div>
+                            <div>
+                                <small>背景色</small>
+                                <input type="color" id="bg-color" value="#EF4444">
+                            </div>
+                        </div>
+                        <label style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="transparent-bg">
+                            <span style="font-size: 0.85rem;">背景を透過</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-family">フォント</label>
+                        <select id="font-family">
+                            <option value="sans-serif">ゴシック体 (Sans-Serif)</option>
+                            <option value="serif">明朝体 (Serif)</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Arial Black', sans-serif">Arial Black</option>
+                            <option value="'Comic Sans MS', cursive, sans-serif">Comic Sans</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="font-size">文字サイズ: <span id="font-size-value">100</span>%</label>
+                        <input type="range" id="font-size" min="50" max="200" value="100" step="5">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="output-size">出力サイズ</label>
+                        <select id="output-size">
+                            <option value="128">128 x 128 px</option>
+                            <option value="256">256 x 256 px</option>
+                            <option value="512" selected>512 x 512 px</option>
+                            <option value="1024">1024 x 1024 px</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="file-format">保存形式</label>
+                        <select id="file-format">
+                            <option value="image/png">PNG</option>
+                            <option value="image/jpeg">JPEG</option>
+                            <option value="image/webp">WebP</option>
+                        </select>
+                    </div>
+
+                    <button id="generate-btn" class="action-btn">プレビュー更新</button>
+                </div>
+
+                <div class="canvas-container">
+                    <div class="canvas-preview-wrapper">
+                        <canvas id="emoji-canvas" width="128" height="128"></canvas>
+                    </div>
+                    <button id="download-btn" class="secondary-btn"
+                        style="width: 100%; padding: 1rem; border-radius: 1rem; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); cursor: pointer;">ダウンロード</button>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h3>最近の作成履歴</h3>
+                <div id="history-list" class="history-grid">
+                    <!-- History items will be injected here -->
+                </div>
+            </div>
+
+            <div class="desc-card">
+                <h3>使い方</h3>
+                <p>
+                    好きな文字を入力して、色やフォントを選ぶだけで、SlackやDiscordなどで使えるカスタム絵文字を簡単に作成できます。<br>
+                    生成された画像はローカルで処理され、サーバーには送信されません。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">ダウンロードしました</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/emoji-generator.js"></script>
+</body>
+
+</html>

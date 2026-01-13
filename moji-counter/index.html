@@ -31,26 +31,61 @@
 
   <main>
     <div class="tool-container">
-      <section>
-        <h2>使い方</h2>
-        <p>下のテキストエリアに文章を入力してください。文字数がリアルタイムで自動集計されます。</p>
-      </section>
+      <section class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">合計文字数</span>
+            <strong id="count-total" class="stat-value">0</strong>
+          </div>
 
-      <div class="desc-card">
-        <h3>このツールについて</h3>
-        <p>
-          この文字数カウントツールは、入力されたテキストの文字数をリアルタイムで計測します。
-          空白や改行の有無を指定してカウントすることも可能です。
-          入力したデータはサーバーに送信されることはなく、ブラウザ内で処理されます。
-        </p>
-      </div>
-      <section>
-        <textarea id="text" placeholder="ここに文章を入力またはペーストしてください..."></textarea>
-        <div class="counter-result">
-          <span>文字数：</span>
-          <strong id="count">0</strong>
+          <div class="stat-card">
+            <span class="stat-label">空白抜き</span>
+            <strong id="count-no-space" class="stat-value">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">改行抜き</span>
+            <strong id="count-no-newline" class="stat-value">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">行数</span>
+            <strong id="count-lines" class="stat-value">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">単語数</span>
+            <strong id="count-words" class="stat-value">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">読了目安</span>
+            <strong id="reading-time" class="stat-value">0分</strong>
+          </div>
         </div>
       </section>
+
+      <section class="editor-section">
+        <div class="editor-toolbar">
+          <div class="options-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="exclude-spaces"> 空白を除外
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="exclude-newlines"> 改行を除外
+            </label>
+          </div>
+          <div class="action-group">
+            <button id="copy-btn" class="secondary-btn small">コピー</button>
+            <button id="clear-btn" class="secondary-btn small">クリア</button>
+          </div>
+        </div>
+        <textarea id="text" placeholder="ここに文章を入力またはペーストしてください..." rows="12"></textarea>
+
+        <div class="primary-counter">
+          <span>現在のカウント対象：</span>
+          <strong id="count-primary">0</strong>
+          <span>文字</span>
+        </div>
+      </section>
+
+
     </div>
   </main>
 
@@ -62,7 +97,7 @@
     <p>&copy; 2026 Simple Tools. All rights reserved.</p>
   </footer>
 
-  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/moji-counter.js"></script>
 </body>
 
 </html>
