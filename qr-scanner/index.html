@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRコードリーダー | Simple Tools</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <style>
+        .scanner-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #000;
+            aspect-ratio: 1;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scanner-guide {
+            width: 70%;
+            height: 70%;
+            border: 2px solid var(--primary);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .scanner-guide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 4px solid #fff;
+            border-radius: 1.5rem;
+            animation: guide-pulse 2s infinite;
+        }
+
+        @keyframes guide-pulse {
+            0% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+        }
+
+        .result-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-top: 2rem;
+            word-break: break-all;
+            border: 1px solid var(--glass-border);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        #output-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 1rem;
+            min-height: 3rem;
+        }
+
+        .scanner-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .status-badge.scanning {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        .status-badge.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="back-nav">
+        <a href="/">← ツール一覧へ戻る</a>
+    </nav>
+
+    <header>
+        <h1>QRコードリーダー</h1>
+        <p class="subtitle">カメラでQRコードを瞬時に読み取り。ブラウザ内処理でプライバシーも安心。</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="scanner-viewport">
+                <video id="video" playsinline></video>
+                <div class="scanner-overlay" id="overlay">
+                    <div class="scanner-guide"></div>
+                </div>
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div class="scanner-controls">
+                <button id="start-btn" class="action-btn" style="width: auto; padding-left: 2rem; padding-right: 2rem;">
+                    スキャン開始
+                </button>
+                <button id="stop-btn" class="action-btn"
+                    style="width: auto; padding-left: 2rem; padding-right: 2rem; background: var(--text-dim);" disabled>
+                    停止
+                </button>
+            </div>
+
+            <div id="loading-msg" style="text-align: center; color: var(--text-muted); display: none;">
+                カメラを起動しています...
+            </div>
+
+            <div class="result-container" id="result-box" style="display: none;">
+                <div class="result-header">
+                    <span class="status-badge success" id="status-label">読み取り完了</span>
+                    <button class="copy-btn" id="copy-btn">コピー</button>
+                </div>
+                <div id="output-text"></div>
+                <div id="url-action" style="margin-top: 1rem; display: none;">
+                    <a id="open-url" href="#" target="_blank" class="action-btn"
+                        style="display: block; text-align: center; text-decoration: none;">
+                        リンクを開く
+                    </a>
+                </div>
+            </div>
+
+            <div class="desc-card">
+                <h3>✨ 特徴</h3>
+                <p>
+                    ・ブラウザのカメラ機能を使用してQRコードを読み取ります。<br>
+                    ・検出処理はすべてデバイス内で行われ、画像がサーバーに送信されることはありません。<br>
+                    ・URLを検出した場合は、ワンタップでアクセス可能です。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">コピーしました</div>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/qr-scanner.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本祝日カレンダー | Simple Tools</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <style>
+        .calendar-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+            color: var(--primary-soft);
+            font-size: 1.8rem;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: var(--text-dim);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            cursor: default;
+        }
+
+        .calendar-day:hover {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: var(--glass-border);
+        }
+
+        .calendar-day.today {
+            background: rgba(167, 139, 250, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.2;
+        }
+
+        .calendar-day.holiday {
+            color: #fca5a5;
+            /* Soft Red */
+        }
+
+        .day-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .holiday-name {
+            font-size: 0.6rem;
+            text-align: center;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        .calendar-day.sunday {
+            color: #fca5a5;
+        }
+
+        .calendar-day.saturday {
+            color: #93c5fd;
+        }
+
+        @media (max-width: 640px) {
+            .calendar-wrapper {
+                padding: 1rem;
+            }
+
+            .day-number {
+                font-size: 1rem;
+            }
+
+            .holiday-name {
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="back-nav">
+        <a href="/">← ツール一覧へ戻る</a>
+    </nav>
+
+    <header>
+        <h1>日本祝日カレンダー</h1>
+        <p class="subtitle">日本の祝日・振替休日を自動計算して表示するシンプルなカレンダーツールです。</p>
+    </header>
+
+    <main>
+        <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <h2 id="currentMonth">2026年 1月</h2>
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prevMonth">前月</button>
+                    <button class="nav-btn" id="todayBtn">今日</button>
+                    <button class="nav-btn" id="nextMonth">次月</button>
+                </div>
+            </div>
+
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Week headers -->
+                <div class="day-header sunday">日</div>
+                <div class="day-header">月</div>
+                <div class="day-header">火</div>
+                <div class="day-header">水</div>
+                <div class="day-header">木</div>
+                <div class="day-header">金</div>
+                <div class="day-header saturday">土</div>
+                <!-- Days will be inserted here -->
+            </div>
+        </div>
+
+        <div class="desc-card">
+            <h3>✨ 特徴</h3>
+            <p>
+                ・ハッピーマンデー制度や振替休日に対応した祝日算出ロジックを搭載しています。<br>
+                ・春分の日・秋分の日の計算もサポート（2099年まで精度確認済み）。<br>
+                ・余計な機能を除いた、軽量で高速な動作を実現しています。
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/jp-calendar.js"></script>
+</body>
+
+</html>

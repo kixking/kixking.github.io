@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://kixking.github.io/</loc>
-    <lastmod>2026-01-13T11:53:00+09:00</lastmod>
+    <lastmod>2026-01-14T20:58:00+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -111,6 +111,24 @@
   <url>
     <loc>https://kixking.github.io/midi-analyzer/</loc>
     <lastmod>2026-01-13T11:53:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kixking.github.io/emoji-generator/</loc>
+    <lastmod>2026-01-14T20:40:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kixking.github.io/qr-scanner/</loc>
+    <lastmod>2026-01-14T20:47:00+09:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kixking.github.io/jp-calendar/</loc>
+    <lastmod>2026-01-14T20:58:00+09:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
