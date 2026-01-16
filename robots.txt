@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kixking.github.io/sitemap.xml
