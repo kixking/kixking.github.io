@@ -1,198 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Top Page -->
   <url>
     <loc>https://kixking.github.io/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
-  <!-- Static Pages -->
   <url>
     <loc>https://kixking.github.io/about.html</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/privacy.html</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
-  <!-- Tools -->
   <url>
     <loc>https://kixking.github.io/moji-counter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/color-picker/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/image-resizer/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/url-encoder/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/base64-converter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/password-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/hash-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/uuid-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/jwt-debugger/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/json-formatter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/sql-formatter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/html-entity/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/csv-to-rag/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/json-to-go/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/text-diff/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/markdown-preview/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/regex-tester/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/css-minifier/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/unit-converter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/epoch-converter/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/jp-calendar/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/client-info/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/multi-view/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/qr-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/qr-scanner/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/meta-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/emoji-generator/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/pdf-extractor/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
   <url>
     <loc>https://kixking.github.io/midi-analyzer/</loc>
-    <lastmod>2026-01-16T16:30:00+09:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-01-16</lastmod>
   </url>
 </urlset>
