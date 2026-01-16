@@ -1,3 +1,5 @@
+import { UrlEncoderLogic } from './modules/url-encoder-logic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const inputText = document.getElementById('input-text');
     const outputText = document.getElementById('output-text');
@@ -12,19 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const processConversion = () => {
         const value = inputText.value;
-        if (!value) {
-            outputText.value = '';
-            return;
-        }
 
-        try {
-            if (currentMode === 'encode') {
-                outputText.value = encodeURIComponent(value);
+        if (currentMode === 'encode') {
+            outputText.value = UrlEncoderLogic.encode(value);
+        } else {
+            const res = UrlEncoderLogic.decode(value);
+            if (res.success) {
+                outputText.value = res.result;
             } else {
-                outputText.value = decodeURIComponent(value);
+                outputText.value = res.error;
             }
-        } catch (e) {
-            outputText.value = 'エラー: 無効な形式です。デコードできない可能性があります。';
         }
     };
 
@@ -57,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showToast() {
+        if (!toast) return;
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 2000);
     }

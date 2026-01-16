@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entity Encoder/Decoder｜Simple Tools</title>
+    <meta name="description" content="HTMLエンティティ化（エスケープ）とデコード処理をリアルタイムに行う開発者向けツールです。特殊文字（<, >, &, " , '）の変換に対応。" />
+    
+    <!-- Standard CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag(' js', new Date()); gtag('config', 'G-4KCLTYQ3D1'); </script>
+</head>
+
+<body>
+    <header>
+        <h1>HTML Entity Encoder</h1>
+        <p class="subtitle">HTML特殊文字のエスケープ・アンエスケープ</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label for="input-text">変換したいテキスト</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="btn-sample" class="secondary-btn"
+                        style="padding: 0.2rem 0.8rem; font-size: 0.8em;">サンプル入力</button>
+                    <button id="btn-clear" class="secondary-btn"
+                        style="padding: 0.2rem 0.8rem; font-size: 0.8em; color: #ff6b6b; border-color: rgba(255, 107, 107, 0.3);">クリア</button>
+                </div>
+            </div>
+            <textarea id="input-text"
+                placeholder="ここにHTML/テキストを入力...&#10;例: <div class='foo'>&quot;Bar&quot;</div>"></textarea>
+        </div>
+
+        <div class="action-buttons"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+            <button id="btn-encode" class="action-btn">
+                ↓ Encode (エスケープ)
+            </button>
+            <button id="btn-decode" class="action-btn"
+                style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);">
+                ↑ Decode (戻す)
+            </button>
+        </div>
+
+        <div class="output-group" style="position: relative;">
+            <label for="output-text">結果</label>
+            <textarea id="output-text" readonly placeholder="変換結果がここに表示されます..."></textarea>
+            <button id="btn-copy" class="copy-btn">コピー</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { HtmlEntityLogic } from '../assets/js/modules/html-entity-logic.js';
+
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+
+        // Buttons
+        const btnEncode = document.getElementById('btn-encode');
+        const btnDecode = document.getElementById('btn-decode');
+        const btnCopy = document.getElementById('btn-copy');
+        const btnClear = document.getElementById('btn-clear');
+        const btnSample = document.getElementById('btn-sample');
+
+        // Actions
+        btnEncode.addEventListener('click', () => {
+            outputText.value = HtmlEntityLogic.encode(inputText.value);
+        });
+
+        btnDecode.addEventListener('click', () => {
+            outputText.value = HtmlEntityLogic.decode(inputText.value);
+        });
+
+        // Copy
+        btnCopy.addEventListener('click', () => {
+            if (!outputText.value) return;
+            navigator.clipboard.writeText(outputText.value).then(() => {
+                const originalText = btnCopy.textContent;
+                btnCopy.textContent = 'Copied!';
+                setTimeout(() => {
+                    btnCopy.textContent = originalText;
+                }, 2000);
+            });
+        });
+
+        // Utilities
+        btnClear.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            inputText.focus();
+        });
+
+        btnSample.addEventListener('click', () => {
+            inputText.value = '<div id="main">\n  <h1>Title & "Quote"</h1>\n  <p>Hello World</p>\n</div>';
+            // Trigger encode immediately for smoother UX
+            outputText.value = HtmlEntityLogic.encode(inputText.value);
+        });
+
+    </script>
+</body>
+
+</html>

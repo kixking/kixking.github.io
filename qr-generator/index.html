@@ -2,6 +2,13 @@
 <html lang="ja">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator｜Simple Tools</title>
+    <meta name="description" content="URLやテキストから高品質なQRコードを生成。色、サイズ、誤り訂正レベルをカスタマイズしてPNGダウンロード可能。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
     <script>
@@ -11,126 +18,151 @@
 
         gtag('config', 'G-4KCLTYQ3D1');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
-        crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <title>QRコード生成器｜Simple Tools</title>
-    <meta name="description" content="高品質なQRコードをブラウザで即座に作成。サイズ、色、誤り訂正レベルを自由にカスタマイズ。PNG/SVGでダウンロード可能です。" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <!-- QR Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 </head>
 
 <body>
     <header>
-        <nav class="back-nav">
-            <a href="/">&larr; ホームへ戻る</a>
-        </nav>
-        <h1>QRコード生成器</h1>
-        <p class="subtitle">URLやテキストをカスタムQRコードに変換</p>
+        <h1>QR Code Generator</h1>
+        <p class="subtitle">カスタムQRコード作成</p>
     </header>
 
-    <main class="qr-main-layout">
-        <div class="qr-left-col">
-            <div class="tool-container">
-                <section class="control-panel">
-                    <div class="text-area-group">
-                        <label for="qr-input">内容 (URL または テキスト)</label>
-                        <textarea id="qr-input" placeholder="QRコードにする内容を入力してください..."
-                            rows="4">https://example.com</textarea>
-                    </div>
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
 
-                    <div class="settings-grid"
-                        style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                        <div class="input-row">
-                            <label for="qr-size">サイズ (px)</label>
-                            <input type="number" id="qr-size" value="300" min="100" max="2000" step="10">
-                        </div>
-                        <div class="input-row">
-                            <label for="qr-padding">余白 (Margin)</label>
-                            <input type="number" id="qr-padding" value="20" min="0" max="100">
-                        </div>
-                        <div class="input-row">
-                            <label for="qr-level">誤り訂正レベル</label>
-                            <select id="qr-level">
-                                <option value="L">L (7%) - 最速・低密度</option>
-                                <option value="M" selected>M (15%) - 標準</option>
-                                <option value="Q">Q (25%) - 高品質</option>
-                                <option value="H">H (30%) - 最高品質</option>
-                            </select>
-                        </div>
-                        <div class="input-row">
-                            <label for="qr-fg-color">コードの色 (Foreground)</label>
-                            <input type="color" id="qr-fg-color" value="#000000">
-                        </div>
-                        <div class="input-row">
-                            <label for="qr-bg-color">背景色 (Background)</label>
-                            <div style="display: flex; gap: 0.5rem; align-items: center;">
-                                <input type="color" id="qr-bg-color" value="#ffffff">
-                                <label class="checkbox-container">
-                                    <input type="checkbox" id="qr-transparent"> 透過
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <main class="tool-container two-col-layout">
 
-                <section class="result-panel qr-result-panel">
-                    <div class="result-header">
-                        <h3>プレビュー</h3>
-                        <button id="save-history-btn" class="secondary-btn"
-                            style="padding: 0.5rem 1rem; font-size: 0.875rem;">履歴に保存</button>
-                    </div>
-                    <div id="qr-preview-container" class="qr-preview-container">
-                        <canvas id="qr-canvas"></canvas>
-                    </div>
+        <!-- Controls -->
+        <div class="control-panel">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary);">設定</h2>
 
-                    <div class="button-group" style="margin-top: 2rem;">
-                        <button id="download-png" class="primary-btn">PNGを保存</button>
-                        <button id="download-svg" class="secondary-btn">SVGを保存</button>
-                    </div>
-                </section>
+            <div class="input-group">
+                <label>QR Content (URL / Text)</label>
+                <textarea id="in-text" rows="3" placeholder="https://example.com">https://example.com</textarea>
+            </div>
 
-                <div class="desc-card">
-                    <h3>このツールについて</h3>
-                    <p>
-                        このツールはブラウザ内でQRコードを生成します。入力した内容が外部サーバーに送信されることはありません。
-                    </p>
-                    <div style="margin-top: 1.5rem;">
-                        <h4 style="color: var(--accent-hover); margin-bottom: 0.5rem;">💡 オプションの解説</h4>
-                        <ul style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
-                            <li><strong>誤り訂正レベル:</strong> コードの一部が汚れたり隠れたりしても読み取れる強さです。「H」にすると密度が上がり、読み取り耐性が強くなります。</li>
-                            <li><strong>透過背景:</strong> デザインに合わせて背景を透明にできます。※ darkモードのプレビューでは見にくい場合があります。</li>
-                            <li><strong>サイズ:</strong> ダウンロード時の解像度に影響します。Web用なら300-500px、印刷用なら1000px以上を推奨します。</li>
-                        </ul>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div class="input-group">
+                    <label>Size (px)</label>
+                    <input type="number" id="in-size" value="300" min="50" max="2000" step="10">
+                </div>
+                <div class="input-group">
+                    <label>Correction Level</label>
+                    <select id="in-level" style="width: 100%; padding: 0.5rem;">
+                        <option value="L">L (7%) - Low</option>
+                        <option value="M" selected>M (15%) - Medium</option>
+                        <option value="Q">Q (25%) - Quartile</option>
+                        <option value="H">H (30%) - High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div class="input-group">
+                    <label>Foreground Color</label>
+                    <input type="color" id="in-fg" value="#000000" style="width: 100%; height: 3rem;">
+                </div>
+                <div class="input-group">
+                    <label>Background Color</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="color" id="in-bg" value="#ffffff" style="flex: 1; height: 3rem;">
+                        <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.3rem;">
+                            <input type="checkbox" id="in-trans"> Transparent
+                        </label>
                     </div>
                 </div>
             </div>
+
+            <button id="btn-update" class="action-btn" style="width: 100%; margin-top: 1.5rem;">
+                再生成 (Update)
+            </button>
         </div>
 
-        <aside class="history-panel">
-            <h3>作成履歴</h3>
-            <div id="history-list" class="history-list">
-                <p style="color: var(--text-muted); font-size: 0.875rem; text-align: center; margin-top: 2rem;">履歴はありません
-                </p>
+        <!-- Preview -->
+        <div class="result-panel"
+            style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; align-self: flex-start; color: var(--primary);">プレビュー
+            </h2>
+
+            <div
+                style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 1rem; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 350px;">
+                <canvas id="qr-canvas"></canvas>
             </div>
-            <button id="clear-history-btn" class="history-item-btn"
-                style="width: 100%; margin-top: 1.5rem; display: none;">全ての履歴を削除</button>
-        </aside>
+
+            <button id="btn-download" class="action-btn" style="margin-top: 1.5rem; width: 100%; max-width: 250px;">
+                PNG保存 (Download)
+            </button>
+        </div>
+
     </main>
 
-    <div id="toast" class="toast">ダウンロードを開始しました</div>
-
     <footer>
-        <nav>
-            <a href="/about.html">サイト概要</a>
-            <a href="/privacy.html">プライバシーポリシー</a>
-        </nav>
         <p>&copy; 2026 Simple Tools. All rights reserved.</p>
     </footer>
 
-    <script src="/assets/js/qr-generator.js"></script>
+    <!-- Library & Logic -->
+    <!-- Using CDN for QRious library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+
+    <script type="module">
+        import { QrLogic } from '../assets/js/modules/qr-logic.js';
+
+        const inputs = {
+            text: document.getElementById('in-text'),
+            size: document.getElementById('in-size'),
+            level: document.getElementById('in-level'),
+            fg: document.getElementById('in-fg'),
+            bg: document.getElementById('in-bg'),
+            trans: document.getElementById('in-trans')
+        };
+        const btnUpdate = document.getElementById('btn-update');
+        const btnDownload = document.getElementById('btn-download');
+        const canvas = document.getElementById('qr-canvas');
+
+        let qr;
+
+        const update = () => {
+            const val = inputs.text.value;
+            if (!val) return;
+
+            // Check if QRious is loaded
+            if (typeof QRious === 'undefined') {
+                console.error('QRious library not loaded');
+                return;
+            }
+
+            qr = QrLogic.generate(QRious, canvas, {
+                value: val,
+                size: parseInt(inputs.size.value),
+                level: inputs.level.value,
+                foreground: inputs.fg.value,
+                background: inputs.bg.value,
+                transparent: inputs.trans.checked
+            });
+        };
+
+        // Events
+        ['input', 'change'].forEach(evt => {
+            Object.values(inputs).forEach(el => el.addEventListener(evt, update));
+        });
+
+        btnDownload.addEventListener('click', () => {
+            if (!qr) return;
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+
+        // Init
+        // Wait for script load if needed, but normally deferred is fine
+        if (typeof QRious !== 'undefined') {
+            update();
+        } else {
+            window.addEventListener('load', update);
+        }
+
+    </script>
 </body>
 
 </html>

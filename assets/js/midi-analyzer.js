@@ -95,22 +95,41 @@ document.addEventListener('DOMContentLoaded', () => {
         rawJsonOutput.value = JSON.stringify(midi, null, 2);
 
         // Meta Events
-        metaTableBody.innerHTML = '';
+        metaTableBody.textContent = '';
         const metaEvents = extractMetaEvents(midi);
         metaEvents.forEach(evt => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${evt.ticks}</td>
-                <td>${evt.time.toFixed(3)}</td>
-                <td><span class="badge ${getEventBadgeClass(evt.type)}">${evt.type}</span></td>
-                <td>${evt.value}</td>
-            `;
+
+            [evt.ticks, evt.time.toFixed(3)].forEach(text => {
+                const td = document.createElement('td');
+                td.textContent = text;
+                tr.appendChild(td);
+            });
+
+            // Type Badge
+            const tdType = document.createElement('td');
+            const span = document.createElement('span');
+            span.className = `badge ${getEventBadgeClass(evt.type)}`;
+            span.textContent = evt.type;
+            tdType.appendChild(span);
+            tr.appendChild(tdType);
+
+            // Value
+            const tdVal = document.createElement('td');
+            tdVal.textContent = evt.value;
+            tr.appendChild(tdVal);
+
             metaTableBody.appendChild(tr);
         });
 
         // Tracks List & Filter Setup
-        tracksList.innerHTML = '';
-        trackFilter.innerHTML = '<option value="all">すべて</option>';
+        tracksList.textContent = '';
+        trackFilter.textContent = '';
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'すべて';
+        trackFilter.appendChild(allOption);
+
         allEvents = [];
 
         midi.tracks.forEach((track, index) => {
@@ -139,19 +158,48 @@ document.addEventListener('DOMContentLoaded', () => {
             // Render Track Summary
             const trackDiv = document.createElement('div');
             trackDiv.className = 'track-item';
-            trackDiv.innerHTML = `
-                <div class="track-header">
-                    <div>
-                        <span class="track-name">${trackName}</span>
-                        ${track.instrument ? `<span style="font-size: 0.8rem; color: var(--accent); margin-left: 0.5rem;">[${track.instrument.name}]</span>` : ''}
-                    </div>
-                    <span class="track-stats">Notes: ${track.notes.length} | Ch: ${track.channel}</span>
-                </div>
-                <div class="track-details" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
-                    <strong>合計イベント数:</strong> ${track.notes.length + (track.controlChanges ? Object.values(track.controlChanges).flat().length : 0)}<br>
-                    ${track.notes.length > 0 ? `<strong>音域:</strong> ${getNoteRange(track.notes)}` : ''}
-                </div>
-            `;
+
+            // Header
+            const trackHeader = document.createElement('div');
+            trackHeader.className = 'track-header';
+
+            const titleContainer = document.createElement('div');
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'track-name';
+            nameSpan.textContent = trackName;
+            titleContainer.appendChild(nameSpan);
+
+            if (track.instrument) {
+                const instSpan = document.createElement('span');
+                instSpan.style.cssText = 'font-size: 0.8rem; color: var(--accent); margin-left: 0.5rem;';
+                instSpan.textContent = `[${track.instrument.name}]`;
+                titleContainer.appendChild(instSpan);
+            }
+            trackHeader.appendChild(titleContainer);
+
+            const statsSpan = document.createElement('span');
+            statsSpan.className = 'track-stats';
+            statsSpan.textContent = `Notes: ${track.notes.length} | Ch: ${track.channel}`;
+            trackHeader.appendChild(statsSpan);
+
+            // Details
+            const trackDetails = document.createElement('div');
+            trackDetails.className = 'track-details';
+            trackDetails.style.cssText = 'font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;';
+
+            const totalEvents = track.notes.length + (track.controlChanges ? Object.values(track.controlChanges).flat().length : 0);
+            const statsText = document.createElement('div');
+            statsText.innerHTML = `<strong>合計イベント数:</strong> ${totalEvents}`; // Safe because totalEvents is number
+            trackDetails.appendChild(statsText);
+
+            if (track.notes.length > 0) {
+                const rangeText = document.createElement('div');
+                rangeText.innerHTML = `<strong>音域:</strong> ${getNoteRange(track.notes)}`; // getNoteRange returns generated string or '-'
+                trackDetails.appendChild(rangeText);
+            }
+
+            trackDiv.appendChild(trackHeader);
+            trackDiv.appendChild(trackDetails);
             tracksList.appendChild(trackDiv);
         });
 
@@ -172,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             filtered = filtered.filter(e => e.type === mappedType);
         }
 
-        fullEventsBody.innerHTML = '';
+        fullEventsBody.textContent = '';
         const limit = 2000;
         const displayList = filtered.slice(0, limit);
 
@@ -180,14 +228,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         displayList.forEach(evt => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${evt.ticks}</td>
-                <td style="font-size: 0.75rem;">${evt.trackName}</td>
-                <td><span class="badge ${getEventBadgeClass(evt.type)}">${evt.type}</span></td>
-                <td>${evt.d1}</td>
-                <td>${evt.d2}</td>
-                <td>${evt.val}</td>
-            `;
+
+            const tdTicks = document.createElement('td');
+            tdTicks.textContent = evt.ticks;
+            tr.appendChild(tdTicks);
+
+            const tdTrack = document.createElement('td');
+            tdTrack.style.fontSize = '0.75rem';
+            tdTrack.textContent = evt.trackName;
+            tr.appendChild(tdTrack);
+
+            const tdType = document.createElement('td');
+            const span = document.createElement('span');
+            span.className = `badge ${getEventBadgeClass(evt.type)}`;
+            span.textContent = evt.type;
+            tdType.appendChild(span);
+            tr.appendChild(tdType);
+
+            [evt.d1, evt.d2, evt.val].forEach(val => {
+                const td = document.createElement('td');
+                td.textContent = val;
+                tr.appendChild(td);
+            });
+
             fullEventsBody.appendChild(tr);
         });
     };

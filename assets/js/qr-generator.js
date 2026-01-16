@@ -90,33 +90,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderHistory = () => {
         const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+        historyList.innerHTML = ''; // Clear current content safely
+
         if (history.length === 0) {
-            historyList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem; text-align: center; margin-top: 2rem;">履歴はありません</p>';
+            const emptyMsg = document.createElement('p');
+            emptyMsg.style.cssText = 'color: var(--text-muted); font-size: 0.875rem; text-align: center; margin-top: 2rem;';
+            emptyMsg.textContent = '履歴はありません';
+            historyList.appendChild(emptyMsg);
             clearHistoryBtn.style.display = 'none';
             return;
         }
 
         clearHistoryBtn.style.display = 'block';
-        historyList.innerHTML = history.map((item, index) => `
-            <div class="history-item">
-                <div class="history-item-header">
-                    <div class="history-item-preview">
-                        <img src="${item.preview}" alt="QR Preview">
-                    </div>
-                    <div class="history-item-actions">
-                        <button class="history-item-btn reuse-btn" data-index="${index}">再利用</button>
-                        <button class="history-item-btn delete-btn" data-index="${index}">削除</button>
-                    </div>
-                </div>
-                <div class="history-item-content">${item.value}</div>
-            </div>
-        `).join('');
 
-        // Re-attach event listeners
-        document.querySelectorAll('.reuse-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const index = btn.getAttribute('data-index');
-                const item = history[index];
+        history.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'history-item';
+
+            // Header
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'history-item-header';
+
+            // Preview
+            const previewDiv = document.createElement('div');
+            previewDiv.className = 'history-item-preview';
+            const img = document.createElement('img');
+            img.src = item.preview;
+            img.alt = 'QR Preview';
+            previewDiv.appendChild(img);
+
+            // Actions
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'history-item-actions';
+
+            const reuseBtn = document.createElement('button');
+            reuseBtn.className = 'history-item-btn reuse-btn';
+            reuseBtn.textContent = '再利用';
+            reuseBtn.onclick = () => {
                 qrInput.value = item.value;
                 qrSize.value = item.size;
                 qrPadding.value = item.padding;
@@ -126,17 +136,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 qrTransparent.checked = item.transparent;
                 generateQR();
                 showToast('履歴から復元しました');
-            });
-        });
+            };
 
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const index = btn.getAttribute('data-index');
-                const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
-                history.splice(index, 1);
-                localStorage.setItem('qr_history', JSON.stringify(history));
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'history-item-btn delete-btn';
+            deleteBtn.textContent = '削除';
+            deleteBtn.onclick = () => {
+                const currentHistory = JSON.parse(localStorage.getItem('qr_history') || '[]');
+                currentHistory.splice(index, 1);
+                localStorage.setItem('qr_history', JSON.stringify(currentHistory));
                 renderHistory();
-            });
+            };
+
+            actionsDiv.appendChild(reuseBtn);
+            actionsDiv.appendChild(deleteBtn);
+
+            headerDiv.appendChild(previewDiv);
+            headerDiv.appendChild(actionsDiv);
+
+            // Content (Safe text rendering)
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'history-item-content';
+            contentDiv.textContent = item.value;
+
+            itemDiv.appendChild(headerDiv);
+            itemDiv.appendChild(contentDiv);
+            historyList.appendChild(itemDiv);
         });
     };
 

@@ -2,13 +2,13 @@
 <html lang="ja">
 
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
-        crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <title>Base64変換ツール｜Simple Tools</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64変換ツール (UTF-8)｜Simple Tools</title>
     <meta name="description" content="テキストをBase64形式にエンコード、またはBase64をデコードできる無料Webツールです。UTF-8（日本語）に完全対応。" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="stylesheet" href="/assets/css/style.css">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
     <script>
@@ -22,60 +22,148 @@
 
 <body>
     <header>
-        <nav class="back-nav">
-            <a href="/">&larr; ホームへ戻る</a>
-        </nav>
-        <h1>Base64変換ツール</h1>
+        <h1>Base64 Converter</h1>
+        <p class="subtitle">UTF-8対応のBase64エンコード・デコード</p>
     </header>
 
-    <main>
-        <div class="tool-container">
-            <div class="conversion-controls">
-                <div class="mode-switch">
-                    <button class="mode-btn active" data-mode="encode">エンコード</button>
-                    <button class="mode-btn" data-mode="decode">デコード</button>
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="action-buttons" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <button class="action-btn active" data-mode="encode" id="tab-encode">Encode (Text &rarr; Base64)</button>
+            <button class="action-btn" data-mode="decode" id="tab-decode"
+                style="background: transparent; border: 1px solid rgba(255,255,255,0.2);">Result &rarr; Text</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: stretch;">
+            <!-- Source -->
+            <div class="group">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <label id="lbl-source">Plain Text (UTF-8)</label>
+                    <button class="secondary-btn" id="btn-clear"
+                        style="font-size: 0.8em; padding: 0.2rem 0.6rem; color: #ff6b6b; border-color: rgba(255,107,107,0.3);">クリア</button>
                 </div>
+                <textarea id="input-source" placeholder="変換したいテキストを入力..." style="height: 300px;"></textarea>
             </div>
 
-            <div class="text-areas">
-                <div class="text-area-group">
-                    <label id="input-label">
-                        入力テキスト
-                        <button class="copy-btn" id="clear-input">消去</button>
-                    </label>
-                    <textarea id="input-text" placeholder="ここに変換したい文字を入力してください..."></textarea>
+            <!-- Result -->
+            <div class="group">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <label id="lbl-result">Base64</label>
+                    <button class="copy-btn" id="btn-copy">コピー</button>
                 </div>
-                <div class="text-area-group">
-                    <label id="output-label">
-                        変換結果
-                        <button class="copy-btn" id="copy-output">コピー</button>
-                    </label>
-                    <textarea id="output-text" readonly placeholder="結果がここに表示されます..."></textarea>
-                </div>
-            </div>
-
-            <div class="desc-card">
-                <h3>Base64変換とは？</h3>
-                <p>
-                    Base64はデータを64種類の文字（A-Z, a-z, 0-9, +, /）で表現するエンコーディング方式です。
-                    主にバイナリデータをテキスト形式で扱いたい場合や、認証情報、データURIスキームなどで利用されます。
-                    当ツールは日本語（UTF-8）の文字列も正しく変換・復元できます。
-                </p>
+                <textarea id="output-result" readonly placeholder="結果がここに表示されます..."
+                    style="height: 300px; color: var(--accent); font-family: monospace;"></textarea>
             </div>
         </div>
+
+        <div id="error-msg" style="color: #ff6b6b; margin-top: 1rem; display: none;"></div>
+
     </main>
 
-    <div id="toast" class="toast">クリップボードにコピーしました！</div>
-
     <footer>
-        <nav>
-            <a href="/about.html">サイト概要</a>
-            <a href="/privacy.html">プライバシーポリシー</a>
-        </nav>
         <p>&copy; 2026 Simple Tools. All rights reserved.</p>
     </footer>
 
-    <script src="/assets/js/base64-converter.js"></script>
+    <!-- Logic Script -->
+    <script type="module">
+        import { Base64Logic } from '../assets/js/modules/base64-logic.js';
+
+        const inputSource = document.getElementById('input-source');
+        const outputResult = document.getElementById('output-result');
+        const btnClear = document.getElementById('btn-clear');
+        const btnCopy = document.getElementById('btn-copy');
+        const tabEncode = document.getElementById('tab-encode');
+        const tabDecode = document.getElementById('tab-decode');
+        const lblSource = document.getElementById('lbl-source');
+        const lblResult = document.getElementById('lbl-result');
+        const errorMsg = document.getElementById('error-msg');
+
+        let mode = 'encode'; // 'encode' or 'decode'
+
+        const update = () => {
+            errorMsg.style.display = 'none';
+            const val = inputSource.value;
+
+            if (!val) {
+                outputResult.value = '';
+                return;
+            }
+
+            try {
+                if (mode === 'encode') {
+                    outputResult.value = Base64Logic.encode(val);
+                } else {
+                    outputResult.value = Base64Logic.decode(val);
+                }
+            } catch (e) {
+                // If partial input during typing, error is expected. Show only if significant or handled nicely.
+                // For decode, invalid base64 is common while typing.
+                if (mode === 'decode') {
+                    // silent fail or weak indicator?
+                    errorMsg.textContent = 'Invalid Base64 sequence';
+                    errorMsg.style.display = 'block';
+                } else {
+                    console.error(e);
+                }
+            }
+        };
+
+        // Event Listeners
+        inputSource.addEventListener('input', update);
+
+        btnClear.addEventListener('click', () => {
+            inputSource.value = '';
+            outputResult.value = '';
+            inputSource.focus();
+        });
+
+        btnCopy.addEventListener('click', () => {
+            if (outputResult.value) {
+                navigator.clipboard.writeText(outputResult.value).then(() => {
+                    const original = btnCopy.textContent;
+                    btnCopy.textContent = 'Copied!';
+                    setTimeout(() => btnCopy.textContent = original, 2000);
+                });
+            }
+        });
+
+        // Mode Switching
+        const setMode = (m) => {
+            mode = m;
+            inputSource.value = '';
+            outputResult.value = '';
+
+            if (mode === 'encode') {
+                tabEncode.classList.add('active');
+                tabEncode.style.background = ''; // reset to default active style
+
+                tabDecode.classList.remove('active');
+                tabDecode.style.background = 'transparent';
+
+                lblSource.textContent = 'Plain Text (UTF-8)';
+                lblResult.textContent = 'Base64';
+                inputSource.placeholder = '変換したいテキストを入力...';
+            } else {
+                tabDecode.classList.add('active');
+                tabDecode.style.background = ''; // reset or set active style
+
+                tabEncode.classList.remove('active');
+                tabEncode.style.background = 'transparent';
+
+                lblSource.textContent = 'Base64';
+                lblResult.textContent = 'Plain Text (UTF-8)';
+                inputSource.placeholder = 'Base64コードを入力...';
+            }
+        };
+
+        tabEncode.addEventListener('click', () => setMode('encode'));
+        tabDecode.addEventListener('click', () => setMode('decode'));
+
+    </script>
 </body>
 
 </html>

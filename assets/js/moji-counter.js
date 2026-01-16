@@ -1,3 +1,5 @@
+import { MojiLogic } from './modules/moji-logic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const textarea = document.getElementById('text');
   const countTotal = document.getElementById('count-total');
@@ -16,40 +18,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateStats = () => {
     const text = textarea.value;
-
-    // Basic Stats
-    const total = text.length;
-    const noSpace = text.replace(/\s/g, '').length;
-    const noNewline = text.replace(/\n/g, '').length;
-    const lines = text ? text.split('\n').length : 0;
-
-    // Word count (Simple implementation for EN/JP mix)
-    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-
-    // Reading time (Approx 400 chars per min for JP)
-    const time = Math.ceil(total / 400);
+    const stats = MojiLogic.calculateStats(text);
 
     // Update UI
-    countTotal.textContent = total.toLocaleString();
-    countNoSpace.textContent = noSpace.toLocaleString();
-    countNoNewline.textContent = noNewline.toLocaleString();
-    countLines.textContent = lines.toLocaleString();
-    countWords.textContent = words.toLocaleString();
-    readingTime.textContent = `${time}分`;
+    countTotal.textContent = stats.total.toLocaleString();
+    countNoSpace.textContent = stats.noSpace.toLocaleString();
+    countNoNewline.textContent = stats.noNewline.toLocaleString();
+    countLines.textContent = stats.lines.toLocaleString();
+    countWords.textContent = stats.words.toLocaleString();
+    readingTime.textContent = `${stats.readingTime}分`;
 
     // Update Primary Counter
-    let primaryValue = total;
-    if (excludeSpacesCheck.checked && excludeNewlinesCheck.checked) {
-      primaryValue = noSpace; // Regex \s handles both
-    } else if (excludeSpacesCheck.checked) {
-      primaryValue = text.replace(/[ 　\t]/g, '').length;
-    } else if (excludeNewlinesCheck.checked) {
-      primaryValue = noNewline;
-    }
+    const primaryValue = MojiLogic.calculatePrimary(
+      text,
+      excludeSpacesCheck.checked,
+      excludeNewlinesCheck.checked
+    );
     countPrimary.textContent = primaryValue.toLocaleString();
   };
 
   const showToast = (message) => {
+    if (!toast) return;
     toast.textContent = message;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);

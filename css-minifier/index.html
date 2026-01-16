@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Minifier (圧縮ツール)｜Simple Tools</title>
+    <meta name="description" content="CSSファイルのサイズを圧縮（軽量化）する無料ツール。コメント削除、空白除去を行い、読み込み速度を向上させます。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>CSS Minifier</h1>
+        <p class="subtitle">CSSの圧縮・軽量化</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label for="input-css">Original CSS</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="btn-sample" class="secondary-btn">サンプル</button>
+                    <button id="btn-clear" class="secondary-btn"
+                        style="color: #ff6b6b; border-color: rgba(255,107,107,0.3);">クリア</button>
+                </div>
+            </div>
+            <textarea id="input-css" placeholder="ここにCSSを貼り付け...&#10;body { color: red; }"
+                style="height: 15rem;"></textarea>
+            <div id="stats-original"
+                style="font-size: 0.8rem; color: var(--text-muted); text-align: right; margin-top: 0.2rem;">0 bytes
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button id="btn-minify" class="action-btn" style="width: 100%; max-width: 300px;">
+                ↓ Minify (圧縮)
+            </button>
+        </div>
+
+        <div class="output-group" style="position: relative;">
+            <label for="output-css">Minified CSS</label>
+            <textarea id="output-css" readonly placeholder="圧縮結果..."
+                style="height: 15rem; color: var(--accent); white-space: pre-wrap; word-break: break-all;"></textarea>
+            <button id="btn-copy" class="copy-btn">コピー</button>
+            <div style="display: flex; justify-content: space-between; margin-top: 0.2rem;">
+                <div id="stats-result" style="font-size: 0.8rem; color: var(--text-muted);"></div>
+                <div id="stats-minified" style="font-size: 0.8rem; color: var(--text-muted);">0 bytes</div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { CssMinifierLogic } from '../assets/js/modules/css-minifier-logic.js';
+
+        const inputCss = document.getElementById('input-css');
+        const outputCss = document.getElementById('output-css');
+        const btnMinify = document.getElementById('btn-minify');
+        const btnCopy = document.getElementById('btn-copy');
+        const btnClear = document.getElementById('btn-clear');
+        const btnSample = document.getElementById('btn-sample');
+
+        const statsOriginal = document.getElementById('stats-original');
+        const statsMinified = document.getElementById('stats-minified');
+        const statsResult = document.getElementById('stats-result');
+
+        const updateStats = () => {
+            const origLen = new Blob([inputCss.value]).size;
+            statsOriginal.textContent = `${origLen.toLocaleString()} bytes`;
+        };
+
+        inputCss.addEventListener('input', updateStats);
+
+        btnMinify.addEventListener('click', () => {
+            const minified = CssMinifierLogic.minify(inputCss.value);
+            outputCss.value = minified;
+
+            const minLen = new Blob([minified]).size;
+            statsMinified.textContent = `${minLen.toLocaleString()} bytes`;
+
+            const origLen = new Blob([inputCss.value]).size;
+            if (origLen > 0) {
+                const percent = ((1 - minLen / origLen) * 100).toFixed(1);
+                statsResult.textContent = `削減率: ${percent}%`;
+                statsResult.style.color = '#4ade80';
+            } else {
+                statsResult.textContent = '';
+            }
+        });
+
+        btnCopy.addEventListener('click', () => {
+            if (!outputCss.value) return;
+            navigator.clipboard.writeText(outputCss.value).then(() => {
+                const original = btnCopy.textContent;
+                btnCopy.textContent = 'Copied!';
+                setTimeout(() => btnCopy.textContent = original, 2000);
+            });
+        });
+
+        btnClear.addEventListener('click', () => {
+            inputCss.value = '';
+            outputCss.value = '';
+            updateStats();
+            statsMinified.textContent = '0 bytes';
+            statsResult.textContent = '';
+        });
+
+        btnSample.addEventListener('click', () => {
+            inputCss.value = `/* Header Styles */
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+/* 
+   Navigation 
+*/
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 15px;
+}`;
+            updateStats();
+        });
+
+    </script>
+</body>
+
+</html>

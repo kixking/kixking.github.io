@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Debugger / Decoder｜Simple Tools</title>
+    <meta name="description" content="JWT (JSON Web Token) のデコードと内容確認ができるツールです。ヘッダー、ペイロード、署名を解析し、有効期限もわかりやすく表示します。" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>JWT Debugger</h1>
+        <p class="subtitle">JSON Web Token のデコードと解析</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="input-group">
+            <label for="jwt-input">Encoded Token</label>
+            <textarea id="jwt-input" placeholder="ここにJWTを貼り付け (eyJ...)"></textarea>
+        </div>
+
+        <div id="error-msg" style="color: #ff6b6b; margin-bottom: 1rem; display: none;"></div>
+
+        <div class="jwt-output" style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+
+            <!-- Header -->
+            <div class="output-block">
+                <h3>Header</h3>
+                <div class="code-box">
+                    <pre id="output-header">{}</pre>
+                </div>
+            </div>
+
+            <!-- Payload -->
+            <div class="output-block">
+                <h3>Payload</h3>
+                <div class="code-box">
+                    <pre id="output-payload">{}</pre>
+                </div>
+                <!-- Extra Info -->
+                <div id="payload-info" style="margin-top: 1rem; font-size: 0.9em; color: var(--text-muted);">
+
+                </div>
+            </div>
+
+            <!-- Signature -->
+            <div class="output-block">
+                <h3>Signature</h3>
+                <div class="code-box" style="word-break: break-all; color: var(--accent);">
+                    <pre id="output-signature" style="white-space: pre-wrap;">(Signature)</pre>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">※ 署名の検証は行っていません</p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <style>
+        .code-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+
+        pre {
+            font-family: monospace;
+            margin: 0;
+            color: #a78bfa;
+        }
+
+        .token-exp-valid {
+            color: #4ade80;
+        }
+
+        .token-exp-invalid {
+            color: #ff6b6b;
+        }
+    </style>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { JwtLogic } from '../assets/js/modules/jwt-logic.js';
+
+        const jwtInput = document.getElementById('jwt-input');
+        const outHeader = document.getElementById('output-header');
+        const outPayload = document.getElementById('output-payload');
+        const outSignature = document.getElementById('output-signature');
+        const errorMsg = document.getElementById('error-msg');
+        const payloadInfo = document.getElementById('payload-info');
+
+        const update = () => {
+            const token = jwtInput.value.trim();
+            errorMsg.style.display = 'none';
+            payloadInfo.innerHTML = '';
+
+            if (!token) {
+                outHeader.textContent = '{}';
+                outPayload.textContent = '{}';
+                outSignature.textContent = '(Signature)';
+                return;
+            }
+
+            try {
+                const decoded = JwtLogic.parse(token);
+
+                // Display JSON
+                outHeader.textContent = JSON.stringify(decoded.header, null, 2);
+                outPayload.textContent = JSON.stringify(decoded.payload, null, 2);
+                outSignature.textContent = decoded.signature;
+
+                // Check Expiration
+                if (decoded.payload.exp) {
+                    const expDate = new Date(decoded.payload.exp * 1000);
+                    const now = new Date();
+                    const isValid = expDate > now;
+
+                    const statusHtml = isValid
+                        ? `<span class="token-exp-valid">✅ 有効 (Live)</span>`
+                        : `<span class="token-exp-invalid">❌ 期限切れ (Expired)</span>`;
+
+                    payloadInfo.innerHTML = `
+                        <div>Expires: <strong>${expDate.toLocaleString()}</strong> ${statusHtml}</div>
+                        ${decoded.payload.iat ? `<div>Issued At: ${new Date(decoded.payload.iat * 1000).toLocaleString()}</div>` : ''}
+                    `;
+                }
+
+            } catch (e) {
+                errorMsg.textContent = 'Invalid JWT: ' + e.message;
+                errorMsg.style.display = 'block';
+            }
+        };
+
+        jwtInput.addEventListener('input', update);
+
+        // Handle example paste via URL param or auto-input could be added here
+    </script>
+</body>
+
+</html>

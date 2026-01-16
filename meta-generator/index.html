@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tag Generator (OGP作成)｜Simple Tools</title>
+    <meta name="description" content="SEOやSNSシェア（OGP, Twitter Card）に必要なメタタグを一括生成するツール。ブログやWebサイト制作に便利。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Meta Tag Generator</h1>
+        <p class="subtitle">SEO & OGPタグを一括生成</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container two-col-layout">
+
+        <!-- Input Form -->
+        <div class="control-panel">
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary);">1. サイト情報を入力</h2>
+
+            <div class="input-group">
+                <label>Page Title</label>
+                <input type="text" id="in-title" placeholder="ページのタイトル">
+            </div>
+
+            <div class="input-group">
+                <label>Description</label>
+                <textarea id="in-desc" placeholder="ページの説明文 (120文字程度推奨)" rows="3"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>URL (Canonical)</label>
+                <input type="url" id="in-url" placeholder="https://example.com/page">
+            </div>
+
+            <div class="input-group">
+                <label>Site Name</label>
+                <input type="text" id="in-sitename" placeholder="サイト名 (例: Simple Tools)">
+            </div>
+
+            <div class="input-group">
+                <label>OG Image URL</label>
+                <input type="url" id="in-image" placeholder="https://example.com/ogp.jpg">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="input-group">
+                    <label>In Content Type</label>
+                    <select id="in-type" style="width: 100%; padding: 0.5rem;">
+                        <option value="website">website (Top Page)</option>
+                        <option value="article" selected>article (Article)</option>
+                        <option value="blog">blog</option>
+                        <option value="product">product</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Twitter Card</label>
+                    <select id="in-card" style="width: 100%; padding: 0.5rem;">
+                        <option value="summary_large_image" selected>summary_large_image</option>
+                        <option value="summary">summary</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Twitter Account (@username)</label>
+                <input type="text" id="in-twitter" placeholder="@username">
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button id="btn-generate" class="action-btn" style="flex: 1;">Generate Code</button>
+                <button id="btn-sample" class="secondary-btn">Sample</button>
+                <button id="btn-clear" class="secondary-btn"
+                    style="color: #ff6b6b; border-color: rgba(255,107,107,0.3);">Clear</button>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div>
+            <h2 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary);">2. 生成コード</h2>
+            <div style="position: relative;">
+                <textarea id="output-code" readonly
+                    style="height: 500px; font-family: monospace; color: var(--accent); white-space: pre; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; width: 100%; resize: vertical;"
+                    placeholder="ここにコードが生成されます..."></textarea>
+                <button id="btn-copy" class="copy-btn" style="position: absolute; top: 10px; right: 10px;">Copy</button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { MetaGeneratorLogic } from '../assets/js/modules/meta-generator-logic.js';
+
+        // Inputs
+        const inputs = {
+            title: document.getElementById('in-title'),
+            description: document.getElementById('in-desc'),
+            url: document.getElementById('in-url'),
+            siteName: document.getElementById('in-sitename'),
+            image: document.getElementById('in-image'),
+            type: document.getElementById('in-type'),
+            cardType: document.getElementById('in-card'),
+            twitterSite: document.getElementById('in-twitter')
+        };
+
+        const outputCode = document.getElementById('output-code');
+        const btnGenerate = document.getElementById('btn-generate');
+        const btnSample = document.getElementById('btn-sample');
+        const btnClear = document.getElementById('btn-clear');
+        const btnCopy = document.getElementById('btn-copy');
+
+        const generate = () => {
+            const data = {
+                title: inputs.title.value,
+                description: inputs.description.value,
+                url: inputs.url.value,
+                siteName: inputs.siteName.value,
+                image: inputs.image.value,
+                type: inputs.type.value,
+                cardType: inputs.cardType.value,
+                twitterSite: inputs.twitterSite.value
+            };
+
+            outputCode.value = MetaGeneratorLogic.generate(data);
+        };
+
+        // Realtime update or manual? Manual is better for forms to avoid heavy updates but let's do manual via button, and maybe change.
+        // Actually, "Generate" button implies manual. Let's stick to manual or 'input' events. 
+        // Let's add input listeners for smooth UX.
+        Object.values(inputs).forEach(el => {
+            el.addEventListener('input', generate);
+        });
+
+        btnGenerate.addEventListener('click', generate);
+
+        btnSample.addEventListener('click', () => {
+            inputs.title.value = 'My Awesome Article';
+            inputs.description.value = 'This is a detailed guide on how to use the Meta Tag Generator.';
+            inputs.url.value = 'https://example.com/article/123';
+            inputs.siteName.value = 'Tech Blog';
+            inputs.image.value = 'https://example.com/images/cover.jpg';
+            inputs.type.value = 'article';
+            inputs.twitterSite.value = '@tech_blog_official';
+            generate();
+        });
+
+        btnClear.addEventListener('click', () => {
+            Object.values(inputs).forEach(el => el.value = '');
+            inputs.type.value = 'article'; // reset default
+            inputs.cardType.value = 'summary_large_image';
+            outputCode.value = '';
+        });
+
+        btnCopy.addEventListener('click', () => {
+            if (!outputCode.value) return;
+            navigator.clipboard.writeText(outputCode.value).then(() => {
+                const original = btnCopy.textContent;
+                btnCopy.textContent = 'Copied!';
+                setTimeout(() => btnCopy.textContent = original, 2000);
+            });
+        });
+
+    </script>
+</body>
+
+</html>

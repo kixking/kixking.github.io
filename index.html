@@ -85,6 +85,18 @@
       <h2>JSONフォーマッター</h2>
       <p>JSONデータの整形・軽量化・バリデーション。シングルクォート等の簡易修復機能も搭載。</p>
     </a>
+    <a href="/sql-formatter/" class="tool-card" data-category="text">
+      <div class="tool-icon">db</div>
+      <span class="badge text">Text</span>
+      <h2>SQLフォーマッター</h2>
+      <p>SQL文を整形して可読性を向上。予約語の大文字化やインデント調整をブラウザ上で実行。</p>
+    </a>
+    <a href="/css-minifier/" class="tool-card" data-category="text">
+      <div class="tool-icon">🎨</div>
+      <span class="badge text">Text</span>
+      <h2>CSS Minifier</h2>
+      <p>CSSファイルを圧縮して軽量化。コメントや余分な空白を削除し、読み込み速度を向上。</p>
+    </a>
     <a href="/json-to-go/" class="tool-card" data-category="text">
       <div class="tool-icon">🛠</div>
       <span class="badge text">Text</span>
@@ -102,6 +114,12 @@
       <span class="badge utility">Utility</span>
       <h2>UNIX時間変換</h2>
       <p>UNIXタイムスタンプと日時の相互変換をリアルタイムに。秒・ミリ秒両方の形式に対応しています。</p>
+    </a>
+    <a href="/text-diff/" class="tool-card" data-category="text">
+      <div class="tool-icon">⚖️</div>
+      <span class="badge text">Text</span>
+      <h2>テキスト比較</h2>
+      <p>2つのテキストを比較して差分を表示。コードや文章の変更点をGitHub風に見やすく可視化します。</p>
     </a>
     <a href="/client-info/" class="tool-card" data-category="utility">
       <div class="tool-icon">🔍</div>
@@ -133,11 +151,35 @@
       <h2>QRコードリーダー</h2>
       <p>デバイスのカメラを使用してQRコードをリアルタイムスキャン。URLならそのままアクセス可能です。</p>
     </a>
+    <a href="/meta-generator/" class="tool-card" data-category="generator">
+      <div class="tool-icon">🏷️</div>
+      <span class="badge generator">Generator</span>
+      <h2>Metaタグ生成</h2>
+      <p>SEOやSNSシェアに必要なOGP、Twitter Card等のメタタグを一括生成。ブログやサイト制作に便利。</p>
+    </a>
+    <a href="/markdown-preview/" class="tool-card" data-category="text">
+      <div class="tool-icon">📝</div>
+      <span class="badge text">Text</span>
+      <h2>Markdown Preview</h2>
+      <p>MarkdownテキストをリアルタイムでHTMLに変換・プレビュー。HTMLコードのコピーも可能です。</p>
+    </a>
+    <a href="/regex-tester/" class="tool-card" data-category="text">
+      <div class="tool-icon">🔍</div>
+      <span class="badge text">Text</span>
+      <h2>正規表現チェッカー</h2>
+      <p>JavaScript正規表現のリアルタイムテスト。マッチした部分のハイライト表示やキャプチャグループの確認ができます。</p>
+    </a>
     <a href="/emoji-generator/" class="tool-card" data-category="generator">
       <div class="tool-icon">😎</div>
       <span class="badge generator">Generator</span>
       <h2>絵文字ジェネレーター</h2>
       <p>好きな文字、色、フォントでSlackやDiscord用の絵文字画像を瞬時に作成します。</p>
+    </a>
+    <a href="/multi-view/" class="tool-card" data-category="utility">
+      <div class="tool-icon">🖼️</div>
+      <span class="badge utility">Utility</span>
+      <h2>同時ページビューアー</h2>
+      <p>複数のURLを1画面に並べて表示。制作サイトの比較や複数資料の同時参照に便利です。</p>
     </a>
     <a href="/pdf-extractor/" class="tool-card" data-category="utility">
       <div class="tool-icon">📄</div>
@@ -150,6 +192,24 @@
       <span class="badge utility">Utility</span>
       <h2>MIDIデータ解析</h2>
       <p>MIDIファイルのバイナリ構造を解析。テンポ、拍子、トラック情報、全イベントを網羅的に出力。</p>
+    </a>
+    <a href="/uuid-generator/" class="tool-card" data-category="generator">
+      <div class="tool-icon">🆔</div>
+      <span class="badge generator">Generator</span>
+      <h2>UUID生成</h2>
+      <p>UUID v4 (ランダム) を安全に一括生成。ハイフン除去や大文字変換オプションも完備。</p>
+    </a>
+    <a href="/html-entity/" class="tool-card" data-category="text">
+      <div class="tool-icon">code</div>
+      <span class="badge text">Text</span>
+      <h2>HTMLエンティティ</h2>
+      <p>HTML特殊文字（&lt;, &gt;, &quot;, &amp;）の安全なエスケープ・アンエスケープ処理。</p>
+    </a>
+    <a href="/jwt-debugger/" class="tool-card" data-category="utility">
+      <div class="tool-icon">key</div>
+      <span class="badge utility">Utility</span>
+      <h2>JWTデバッガー</h2>
+      <p>JSON Web Tokenのヘッダー・ペイロードをデコード。有効期限(exp)も分かりやすく表示。</p>
     </a>
   </main>
 
@@ -251,31 +311,7 @@
     <p>&copy; 2026 Simple Tools. All rights reserved.</p>
   </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const filterChips = document.querySelectorAll('.filter-chip');
-      const toolCards = document.querySelectorAll('.tool-card');
-
-      filterChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          // Remove active class from all chips
-          filterChips.forEach(c => c.classList.remove('active'));
-          // Add active class to clicked chip
-          chip.classList.add('active');
-
-          const filterValue = chip.getAttribute('data-filter');
-
-          toolCards.forEach(card => {
-            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-              card.classList.remove('hidden');
-            } else {
-              card.classList.add('hidden');
-            }
-          });
-        });
-      });
-    });
-  </script>
+  <script src="/assets/js/main.js"></script>
 </body>
 
 </html>

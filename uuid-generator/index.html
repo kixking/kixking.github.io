@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID生成ツール (v4)｜Simple Tools</title>
+    <meta name="description" content="UUID v4 (ランダム) をブラウザ上で安全に生成する無料ツールです。一括生成、ハイフン削除、大文字変換にも対応。サーバー送信なしで安心。" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>UUID Generator</h1>
+        <p class="subtitle">UUID v4 (ランダム) を安全に一括生成</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+        <!-- UUID Generator Interface -->
+        <h2>設定と生成</h2>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+
+            <!-- Count Control -->
+            <div>
+                <label for="count-slider"
+                    style="display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: bold;">生成数:
+                    <span id="count-display" style="color: var(--primary);">5</span></label>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <input type="range" id="count-slider" min="1" max="100" value="5" style="flex: 1;">
+                    <input type="number" id="count-number" min="1" max="1000" value="5" style="width: 80px;">
+                </div>
+            </div>
+
+            <!-- Options -->
+            <div style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+                <label
+                    style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-main);">
+                    <input type="checkbox" id="check-uppercase" style="width: 20px; height: 20px; flex: 0 0 auto;">
+                    大文字にする (Uppercase)
+                </label>
+                <label
+                    style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-main);">
+                    <input type="checkbox" id="check-hyphens" style="width: 20px; height: 20px; flex: 0 0 auto;">
+                    ハイフンを削除 (Remove Hyphens)
+                </label>
+            </div>
+        </div>
+
+        <button id="btn-generate" class="action-btn" style="width: 100%; margin-bottom: 2rem;">生成する (Generate)</button>
+
+        <h2>生成結果</h2>
+        <div style="position: relative;">
+            <textarea id="output-area" readonly placeholder="ここに生成されたUUIDが表示されます..."
+                style="height: 400px; font-family: monospace; line-height: 1.5;"></textarea>
+            <button id="btn-copy"
+                style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color:white; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">コピー</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <!-- Logic & UI Script -->
+    <script type="module">
+        import { UuidLogic } from '../assets/js/modules/uuid-logic.js';
+
+        const countSlider = document.getElementById('count-slider');
+        const countNumber = document.getElementById('count-number');
+        const countDisplay = document.getElementById('count-display');
+        const checkUppercase = document.getElementById('check-uppercase');
+        const checkHyphens = document.getElementById('check-hyphens');
+        const btnGenerate = document.getElementById('btn-generate');
+        const btnCopy = document.getElementById('btn-copy');
+        const outputArea = document.getElementById('output-area');
+
+        // Sync inputs
+        function updateCount(val) {
+            const num = Math.min(Math.max(1, parseInt(val) || 1), 1000);
+            countSlider.value = num > 100 ? 100 : num; // Slider caps at 100 visually
+            countNumber.value = num;
+            countDisplay.innerText = num;
+            return num;
+        }
+
+        countSlider.addEventListener('input', (e) => updateCount(e.target.value));
+        countNumber.addEventListener('input', (e) => updateCount(e.target.value));
+
+        // Generate Logic
+        const generate = () => {
+            const count = parseInt(countNumber.value);
+            const options = {
+                uppercase: checkUppercase.checked,
+                removeHyphens: checkHyphens.checked
+            };
+
+            try {
+                const uuids = UuidLogic.generateBulk(count, options);
+                outputArea.value = uuids.join('\n');
+            } catch (e) {
+                console.error(e);
+                outputArea.value = 'Error: ' + e.message;
+            }
+        };
+
+        btnGenerate.addEventListener('click', generate);
+
+        // Auto-generate on option change (optional, but good UX)
+        checkUppercase.addEventListener('change', generate);
+        checkHyphens.addEventListener('change', generate);
+
+        // Copy
+        btnCopy.addEventListener('click', () => {
+            if (!outputArea.value) return;
+            navigator.clipboard.writeText(outputArea.value).then(() => {
+                const originalText = btnCopy.innerText;
+                btnCopy.innerText = 'Copied!';
+                setTimeout(() => btnCopy.innerText = originalText, 2000);
+            });
+        });
+
+        // Initial run
+        generate();
+    </script>
+</body>
+
+</html>

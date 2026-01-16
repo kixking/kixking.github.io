@@ -1,3 +1,5 @@
+import { JsonFormatterLogic } from './modules/json-formatter-logic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const inputText = document.getElementById('input-text');
     const outputText = document.getElementById('output-text');
@@ -26,39 +28,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const formatJSON = (prettify = true) => {
-        const input = inputText.value.trim();
-        if (!input) {
-            outputText.value = '';
-            showError(null);
-            return;
-        }
+        const input = inputText.value;
+        const indent = prettify ? getIndent() : 0;
 
-        try {
-            const obj = JSON.parse(input);
-            const indent = prettify ? getIndent() : null;
-            outputText.value = JSON.stringify(obj, null, indent);
+        const res = JsonFormatterLogic.format(input, indent);
+
+        if (res.success) {
+            outputText.value = res.result;
             showError(null);
-        } catch (e) {
-            showError(`エラー: ${e.message}`);
+        } else {
+            showError(`エラー: ${res.error}`);
             outputText.value = '';
         }
-    };
-
-    const sanitizeJSON = (text) => {
-        let cleaned = text.trim();
-
-        // 1. Replace single quotes with double quotes (approximated)
-        // This is naive but covers basic cases where keys/values are 'quoted'
-        cleaned = cleaned.replace(/'/g, '"');
-
-        // 2. Remove trailing commas
-        cleaned = cleaned.replace(/,\s*([\]}])/g, '$1');
-
-        // 3. Remove comments (single line and multi-line)
-        cleaned = cleaned.replace(/\/\/.*$/gm, '');
-        cleaned = cleaned.replace(/\/\*[\s\S]*?\*\//g, '');
-
-        return cleaned;
     };
 
     // --- Events ---
@@ -67,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fixBtn.addEventListener('click', () => {
         const input = inputText.value;
-        const sanitized = sanitizeJSON(input);
+        const sanitized = JsonFormatterLogic.repair(input);
         inputText.value = sanitized;
         formatJSON(true);
     });
@@ -81,8 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
         if (!outputText.value) return;
         navigator.clipboard.writeText(outputText.value).then(() => {
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            if (toast) {
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }
         });
     });
 

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同時ページビューアー | Simple Tools</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+    <style>
+        .viewer-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .url-input-area {
+            width: 100%;
+            min-height: 120px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        .view-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .frame-container {
+            background: var(--glass-bg);
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            box-shadow: var(--glass-shadow);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .frame-header {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .frame-header span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-muted);
+            max-width: 80%;
+        }
+
+        iframe {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+            background: white;
+            /* Default fallback color */
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+
+        @media (max-width: 600px) {
+            .view-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .frame-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="back-nav">
+        <a href="/">← ツール一覧へ戻る</a>
+    </nav>
+
+    <header>
+        <h1>同時ページビューアー</h1>
+        <p class="subtitle">複数のURLを入力して、ひとつの画面で同時に表示・比較できます。</p>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="warning-box">
+                ⚠️ <strong>重要:</strong> Google, GitHub,
+                Amazonなどはセキュリティ設定（X-Frame-Options）により、外部サイト内での表示を禁止しています。それらのサイトは「拒否されました」と表示され、このツールでは閲覧できません。
+            </div>
+
+            <div class="viewer-controls">
+                <div>
+                    <label>表示したいURLを入力（最大10件、1行に1つ）</label>
+                    <textarea id="urlInput" class="url-input-area"
+                        placeholder="https://example.com&#10;https://another-site.com"></textarea>
+                </div>
+                <button id="viewBtn" class="action-btn">一括表示を開始</button>
+            </div>
+
+            <div class="view-grid" id="viewGrid">
+                <!-- iframes will appear here -->
+            </div>
+
+            <div class="desc-card">
+                <h3>✨ 特徴</h3>
+                <p>
+                    ・ブラウザのiframeタグを使用して、同一画面で複数のサイトを表示します。<br>
+                    ・最大10件までのURLを同時に読み込むことが可能です。<br>
+                    ・自身の制作中サイトのレスポンシブ確認や、ドキュメントの複数参照に便利です。<br>
+                    ・URL情報の送信などは一切行われない、安全なブラウザ内ツールです。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="/about.html">サイト概要</a>
+            <a href="/privacy.html">プライバシーポリシー</a>
+        </nav>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/multi-view.js"></script>
+</body>
+
+</html>

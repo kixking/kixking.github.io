@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Formatter｜Simple Tools</title>
+    <meta name="description" content="SQL文をきれいに整形（フォーマット）する無料ツールです。インデント揃えや予約語の大文字化を行い、可読性を向上させます。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>SQL Formatter</h1>
+        <p class="subtitle">SQL文の整形・インデント調整</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <label for="input-sql">SQL Input</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button id="btn-sample" class="secondary-btn">サンプル</button>
+                    <button id="btn-clear" class="secondary-btn"
+                        style="color: #ff6b6b; border-color: rgba(255,107,107,0.3);">クリア</button>
+                </div>
+            </div>
+            <textarea id="input-sql" placeholder="SELECT * FROM table..." style="height: 15rem;"></textarea>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button id="btn-format" class="action-btn" style="width: 100%; max-width: 300px;">
+                ↓ Format SQL
+            </button>
+        </div>
+
+        <div class="output-group" style="position: relative;">
+            <label for="output-sql">Formatted Output</label>
+            <textarea id="output-sql" readonly placeholder="整形されたSQLがここに表示されます..."
+                style="height: 20rem; white-space: pre; font-family: monospace; line-height: 1.5; color: #a78bfa;"></textarea>
+            <button id="btn-copy" class="copy-btn">コピー</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { SqlFormatterLogic } from '../assets/js/modules/sql-formatter-logic.js';
+
+        const inputSql = document.getElementById('input-sql');
+        const outputSql = document.getElementById('output-sql');
+        const btnFormat = document.getElementById('btn-format');
+        const btnCopy = document.getElementById('btn-copy');
+        const btnClear = document.getElementById('btn-clear');
+        const btnSample = document.getElementById('btn-sample');
+
+        // Main Action
+        btnFormat.addEventListener('click', () => {
+            const result = SqlFormatterLogic.format(inputSql.value);
+            outputSql.value = result;
+        });
+
+        // Copy
+        btnCopy.addEventListener('click', () => {
+            if (!outputSql.value) return;
+            navigator.clipboard.writeText(outputSql.value).then(() => {
+                const originalText = btnCopy.textContent;
+                btnCopy.textContent = 'Copied!';
+                setTimeout(() => btnCopy.textContent = originalText, 2000);
+            });
+        });
+
+        // Clear
+        btnClear.addEventListener('click', () => {
+            inputSql.value = '';
+            outputSql.value = '';
+            inputSql.focus();
+        });
+
+        // Sample
+        btnSample.addEventListener('click', () => {
+            inputSql.value = `select u.id, u.name, o.total from users u inner join orders o on u.id = o.user_id where o.total > 1000 order by o.total desc`;
+            outputSql.value = '';
+        });
+
+    </script>
+</body>
+
+</html>

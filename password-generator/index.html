@@ -2,6 +2,12 @@
 <html lang="ja">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パスワード生成器｜Simple Tools</title>
+    <meta name="description" content="安全で強力なパスワードをランダムに生成する無料Webツールです。Web Crypto APIを使用し、サーバー送信なしで安全にブラウザ内で完結します。" />
+    <link rel="stylesheet" href="/assets/css/style.css">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
     <script>
@@ -11,99 +17,239 @@
 
         gtag('config', 'G-4KCLTYQ3D1');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9453304994886859"
-        crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <title>パスワード生成器｜Simple Tools</title>
-    <meta name="description" content="安全で強力なパスワードをランダムに生成する無料Webツールです。桁数や文字種を自由にカスタマイズ可能。" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
     <header>
-        <nav class="back-nav">
-            <a href="/">&larr; ホームへ戻る</a>
-        </nav>
-        <h1>パスワード生成器</h1>
-        <p class="subtitle">安全なパスワードを複雑な条件で一括生成</p>
+        <h1>PASSWORD Generator</h1>
+        <p class="subtitle">安全なパスワードをカスタム生成</p>
     </header>
 
-    <main class="two-col-layout">
-        <div class="tool-container">
-            <section class="control-panel">
-                <div class="input-row">
-                    <label for="password-length">パスワードの文字数 (4-24)</label>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <input type="range" id="length-slider" min="4" max="24" value="12" style="flex: 1;">
-                        <input type="number" id="length-number" min="4" max="24" value="12" style="width: 60px;">
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div class="control-panel" style="margin-bottom: 2rem;">
+            <!-- Settings -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: bold;">
+                        文字数: <span id="val-length" style="color: var(--primary);">12</span>
+                    </label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="range" id="input-length" min="4" max="64" value="12" style="flex: 1;">
+                        <input type="number" id="num-length" min="4" max="64" value="12" style="width: 70px;">
+                    </div>
+
+                    <label
+                        style="display: block; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-muted); font-weight: bold;">
+                        生成個数: <span id="val-count" style="color: var(--primary);">5</span>
+                    </label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="range" id="input-count" min="1" max="50" value="5" style="flex: 1;">
+                        <input type="number" id="num-count" min="1" max="50" value="5" style="width: 70px;">
                     </div>
                 </div>
 
-                <div class="input-row" style="margin-top: 1.5rem;">
-                    <label for="generate-count">生成個数 (1-100)</label>
-                    <input type="number" id="generate-count" min="1" max="100" value="5">
+                <div
+                    style="display: flex; flex-direction: column; gap: 0.8rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 0.5rem;">
+                    <label class="check-label"><input type="checkbox" id="chk-upper" checked> 英大文字 (A-Z)</label>
+                    <label class="check-label"><input type="checkbox" id="chk-lower" checked> 英小文字 (a-z)</label>
+                    <label class="check-label"><input type="checkbox" id="chk-number" checked> 数字 (0-9)</label>
+                    <label class="check-label"><input type="checkbox" id="chk-symbol"> 記号 (!@#...)</label>
+                    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 0.5rem 0;">
+                    <label class="check-label"><input type="checkbox" id="chk-fullwidth"> 全角文字に変換 (Fullwidth)</label>
                 </div>
 
-                <div class="text-area-group" style="margin-top: 1.5rem;">
-                    <label>使用する文字種</label>
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.8rem; margin-top: 0.5rem;">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="include-upper" checked> 英大文字 (A-Z)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="include-lower" checked> 英小文字 (a-z)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="include-number" checked> 数字 (0-9)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="include-symbol" checked> 記号 (!@#$%...)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="use-fullwidth"> 全角文字に変換
-                        </label>
-                    </div>
-                </div>
-
-                <button id="generate-btn" class="action-btn" style="margin-top: 2rem; width: 100%;">パスワードを生成する</button>
-            </section>
-        </div>
-
-        <div class="info-panel">
-            <div class="info-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2 style="margin: 0;">生成結果</h2>
-                    <button id="copy-all-btn" class="copy-btn"
-                        style="padding: 4px 12px; font-size: 0.8rem;">すべてコピー</button>
-                </div>
-                <div id="results-list" class="results-list">
-                    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">条件を設定して生成ボタンを押してください</p>
-                </div>
             </div>
 
-            <div class="desc-card" style="margin-top: 1.5rem;">
-                <h3>セキュリティについて</h3>
-                <p>
-                    このツールはブラウザの標準セキュリティ機能（Web Crypto API）を使用して暗号学的に安全な乱数を生成しています。
-                    生成処理はすべてお使いのデバイス上で行われ、サーバーにデータが送信されることはありません。
-                </p>
-            </div>
+            <button id="btn-generate" class="action-btn" style="width: 100%; margin-top: 2rem;">
+                生成する (Generate)
+            </button>
         </div>
+
+        <!-- Results -->
+        <h2 style="font-size: 1.2rem; display: flex; justify-content: space-between; align-items: center;">
+            生成結果
+            <button id="btn-copy-all" class="secondary-btn"
+                style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">全てコピー</button>
+        </h2>
+        <div id="result-container" style="display: grid; gap: 1rem;">
+            <!-- Results injected here -->
+        </div>
+
     </main>
 
-    <div id="toast" class="toast">コピーしました！</div>
-
     <footer>
-        <nav>
-            <a href="/about.html">サイト概要</a>
-            <a href="/privacy.html">プライバシーポリシー</a>
-        </nav>
         <p>&copy; 2026 Simple Tools. All rights reserved.</p>
     </footer>
 
-    <script src="/assets/js/password-generator.js"></script>
+    <style>
+        .check-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .password-row {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .password-row:hover {
+            border-color: var(--primary);
+        }
+
+        .password-text {
+            flex: 1;
+            font-family: monospace;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            word-break: break-all;
+        }
+
+        .copy-icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.4rem;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .copy-icon-btn:hover {
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { PasswordLogic } from '../assets/js/modules/password-logic.js';
+
+        // Elements
+        const inputLength = document.getElementById('input-length');
+        const numLength = document.getElementById('num-length');
+        const valLength = document.getElementById('val-length');
+
+        const inputCount = document.getElementById('input-count');
+        const numCount = document.getElementById('num-count');
+        const valCount = document.getElementById('val-count');
+
+        const chks = {
+            upper: document.getElementById('chk-upper'),
+            lower: document.getElementById('chk-lower'),
+            number: document.getElementById('chk-number'),
+            symbol: document.getElementById('chk-symbol')
+        };
+        const chkFullwidth = document.getElementById('chk-fullwidth');
+
+        const btnGenerate = document.getElementById('btn-generate');
+        const btnCopyAll = document.getElementById('btn-copy-all');
+        const resultContainer = document.getElementById('result-container');
+
+        // Sync inputs
+        const sync = (range, num, disp) => {
+            range.addEventListener('input', e => {
+                num.value = e.target.value;
+                disp.textContent = e.target.value;
+            });
+            num.addEventListener('input', e => {
+                range.value = e.target.value;
+                disp.textContent = e.target.value;
+            });
+        };
+        sync(inputLength, numLength, valLength);
+        sync(inputCount, numCount, valCount);
+
+        // Generate
+        const generate = () => {
+            const len = parseInt(numLength.value);
+            const count = parseInt(numCount.value);
+            const options = {
+                upper: chks.upper.checked,
+                lower: chks.lower.checked,
+                number: chks.number.checked,
+                symbol: chks.symbol.checked
+            };
+
+            resultContainer.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                let pwd = PasswordLogic.generate(len, options);
+                if (chkFullwidth.checked) {
+                    pwd = PasswordLogic.toFullWidth(pwd);
+                }
+
+                if (!pwd) {
+                    resultContainer.innerHTML = '<div style="color: #ff6b6b; padding: 1rem;">文字種を少なくとも1つ選択してください</div>';
+                    return;
+                }
+
+                const div = document.createElement('div');
+                div.className = 'password-row';
+                div.innerHTML = `
+                    <div class="password-text">${escapeHtml(pwd)}</div>
+                    <button class="copy-icon-btn" title="Copy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                `;
+
+                // Copy Event
+                div.querySelector('button').addEventListener('click', (e) => {
+                    navigator.clipboard.writeText(pwd).then(() => {
+                        const btn = e.currentTarget;
+                        btn.style.color = '#4ade80'; // green
+                        setTimeout(() => btn.style.color = '', 1000);
+                    });
+                });
+
+                resultContainer.appendChild(div);
+            }
+        };
+
+        const escapeHtml = (str) => {
+            return str.replace(/[&<>"']/g, function (m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        };
+
+        btnGenerate.addEventListener('click', generate);
+
+        btnCopyAll.addEventListener('click', () => {
+            const allText = Array.from(document.querySelectorAll('.password-text'))
+                .map(el => el.textContent)
+                .join('\n');
+            if (allText) {
+                navigator.clipboard.writeText(allText).then(() => {
+                    const original = btnCopyAll.textContent;
+                    btnCopyAll.textContent = 'Copied!';
+                    setTimeout(() => btnCopyAll.textContent = original, 2000);
+                });
+            }
+        });
+
+        // Initial
+        generate();
+
+    </script>
 </body>
 
 </html>

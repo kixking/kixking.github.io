@@ -92,7 +92,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = new TextEncoder().encode(processed);
                     return await processData(data, algo, currentMode, keyData);
                 }));
-                hashOutput.innerHTML = results.join('<br>');
+                hashOutput.innerHTML = '';
+                results.forEach(res => {
+                    const div = document.createElement('div');
+                    div.textContent = res;
+                    hashOutput.appendChild(div);
+                });
             } else {
                 let processed = value;
                 if (doTrim) processed = processed.trim();

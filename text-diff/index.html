@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テキスト比較 (Text Diff)｜Simple Tools</title>
+    <meta name="description" content="2つのテキストの差分（Diff）を行単位で比較・表示するツール。追加、削除された行をハイライト表示します。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Text Diff</h1>
+        <p class="subtitle">テキストの行単位差分を比較</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Original -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <label>Original Text</label>
+                    <button class="secondary-btn" id="btn-clear-orig"
+                        style="font-size: 0.8em; padding: 0.2rem 0.6rem;">Clear</button>
+                </div>
+                <textarea id="input-orig" placeholder="元のテキスト..."
+                    style="height: 200px; font-family: monospace; font-size: 0.9em;"></textarea>
+            </div>
+
+            <!-- Modified -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <label>New Text</label>
+                    <button class="secondary-btn" id="btn-clear-new"
+                        style="font-size: 0.8em; padding: 0.2rem 0.6rem;">Clear</button>
+                </div>
+                <textarea id="input-new" placeholder="変更後のテキスト..."
+                    style="height: 200px; font-family: monospace; font-size: 0.9em;"></textarea>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button id="btn-compare" class="action-btn" style="padding: 0.7rem 3rem;">Compare (比較)</button>
+            <button id="btn-sample" class="secondary-btn" style="margin-left: 1rem;">サンプル</button>
+        </div>
+
+        <!-- Result -->
+        <h2 style="font-size: 1.2rem; color: var(--text-muted);">比較結果</h2>
+        <div id="diff-results" class="diff-container">
+            <div
+                style="padding: 2rem; text-align: center; color: var(--text-muted); background: rgba(0,0,0,0.2); border-radius: 8px;">
+                テキストを入力して比較ボタンを押してください
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <style>
+        .diff-container {
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            background: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .diff-line {
+            display: flex;
+            line-height: 1.5;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .diff-line:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            width: 3rem;
+            text-align: right;
+            padding: 0 0.5rem;
+            color: #555;
+            border-right: 1px solid #333;
+            user-select: none;
+            background: #252526;
+        }
+
+        .line-content {
+            flex: 1;
+            padding: 0 0.5rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Diff Colors */
+        .diff-add {
+            background: rgba(46, 160, 67, 0.15);
+        }
+
+        .diff-add .line-content {
+            color: #b7f0b7;
+        }
+
+        .diff-add .line-num {
+            background: rgba(46, 160, 67, 0.1);
+            color: #8bc98b;
+        }
+
+        .diff-del {
+            background: rgba(248, 81, 73, 0.15);
+        }
+
+        .diff-del .line-content {
+            color: #ffb3b3;
+        }
+
+        .diff-del .line-num {
+            background: rgba(248, 81, 73, 0.1);
+            color: #e98c8c;
+        }
+
+        .diff-same .line-content {
+            color: #d4d4d4;
+        }
+    </style>
+
+    <!-- Logic Script -->
+    <script type="module">
+        import { TextDiffLogic } from '../assets/js/modules/text-diff-logic.js';
+
+        const inputOrig = document.getElementById('input-orig');
+        const inputNew = document.getElementById('input-new');
+        const btnCompare = document.getElementById('btn-compare');
+        const btnSample = document.getElementById('btn-sample');
+
+        const btnClearOrig = document.getElementById('btn-clear-orig');
+        const btnClearNew = document.getElementById('btn-clear-new');
+
+        const diffResults = document.getElementById('diff-results');
+
+        // Utils
+        const escapeHtml = (str) => {
+            return str.replace(/[&<>"']/g, function (m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        };
+
+        const render = () => {
+            const origText = inputOrig.value;
+            const newText = inputNew.value;
+
+            if (!origText && !newText) {
+                diffResults.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted); background: rgba(0,0,0,0.2); border-radius: 8px;">テキストが空です</div>';
+                return;
+            }
+
+            const diff = TextDiffLogic.computeDiff(origText, newText);
+
+            let html = '';
+            let lineNumOld = 1;
+            let lineNumNew = 1;
+
+            diff.forEach(d => {
+                let numColRaw = '';
+                let rowClass = '';
+                let prefix = ' ';
+
+                if (d.type === 'same') {
+                    rowClass = 'diff-same';
+                    numColRaw = `<div class="line-num">${lineNumOld}</div><div class="line-num">${lineNumNew}</div>`;
+                    lineNumOld++;
+                    lineNumNew++;
+                } else if (d.type === 'add') {
+                    rowClass = 'diff-add';
+                    prefix = '+';
+                    numColRaw = `<div class="line-num"></div><div class="line-num">${lineNumNew}</div>`;
+                    lineNumNew++;
+                } else if (d.type === 'del') {
+                    rowClass = 'diff-del';
+                    prefix = '-';
+                    numColRaw = `<div class="line-num">${lineNumOld}</div><div class="line-num"></div>`;
+                    lineNumOld++;
+                }
+
+                html += `
+                    <div class="diff-line ${rowClass}">
+                        ${numColRaw}
+                        <div class="line-content">${prefix} ${escapeHtml(d.text)}</div>
+                    </div>
+                 `;
+            });
+
+            diffResults.innerHTML = html;
+        };
+
+        btnCompare.addEventListener('click', render);
+
+        btnClearOrig.addEventListener('click', () => inputOrig.value = '');
+        btnClearNew.addEventListener('click', () => inputNew.value = '');
+
+        btnSample.addEventListener('click', () => {
+            inputOrig.value = `func hello() {
+    fmt.Println("Hello")
+    return
+}`;
+            inputNew.value = `func hello(name string) {
+    fmt.Printf("Hello %s", name)
+    // Return removed
+}`;
+            render();
+        });
+
+    </script>
+</body>
+
+</html>

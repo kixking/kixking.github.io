@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Preview｜Simple Tools</title>
+    <meta name="description" content="MarkdownテキストをリアルタイムでHTMLに変換してプレビュー表示・HTML保存できるツールです。" />
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KCLTYQ3D1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4KCLTYQ3D1');
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Markdown Preview</h1>
+        <p class="subtitle">リアルタイムMarkdownエディタ</p>
+    </header>
+
+    <div class="back-nav">
+        <a href="/"><span>←</span> Home</a>
+    </div>
+
+    <main class="tool-container" style="max-width: 1200px;"> <!-- Wider container -->
+
+        <div class="md-editor-layout">
+            <!-- Editor -->
+            <div class="md-pane">
+                <div class="pane-header">
+                    <label>Markdown Input</label>
+                    <div class="pane-actions">
+                        <button class="secondary-btn" id="btn-sample">Sample</button>
+                        <button class="secondary-btn text-danger" id="btn-clear">Clear</button>
+                    </div>
+                </div>
+                <textarea id="md-input" id="md-input" placeholder="# Hello World..." class="md-textarea"></textarea>
+            </div>
+
+            <!-- Preview -->
+            <div class="md-pane">
+                <div class="pane-header">
+                    <label>Preview</label>
+                    <button class="copy-btn" id="btn-copy-html">Copy HTML</button>
+                </div>
+                <div id="md-preview" class="md-preview-content"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Simple Tools. All rights reserved.</p>
+    </footer>
+
+    <style>
+        .md-editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            min-height: 70vh;
+        }
+
+        @media (max-width: 768px) {
+            .md-editor-layout {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+        }
+
+        .md-pane {
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .md-textarea {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            /* Fill pane */
+            min-height: 400px;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: monospace;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .md-preview-content {
+            flex: 1;
+            padding: 2rem;
+            background: #fff;
+            /* White bg for preview typically */
+            color: #333;
+            overflow-y: auto;
+            min-height: 400px;
+            line-height: 1.6;
+        }
+
+        /* Basic Markdown Styles for Preview */
+        .md-preview-content h1,
+        .md-preview-content h2,
+        .md-preview-content h3 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+            margin-top: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .md-preview-content h1 {
+            font-size: 2em;
+        }
+
+        .md-preview-content h2 {
+            font-size: 1.5em;
+        }
+
+        .md-preview-content p {
+            margin-bottom: 1em;
+        }
+
+        .md-preview-content code {
+            background: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .md-preview-content pre {
+            background: #f6f8fa;
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        .md-preview-content pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .md-preview-content blockquote {
+            border-left: 4px solid #ddd;
+            margin: 0;
+            padding-left: 1rem;
+            color: #666;
+        }
+
+        .md-preview-content ul,
+        .md-preview-content ol {
+            padding-left: 2rem;
+            margin-bottom: 1em;
+        }
+
+        .md-preview-content img {
+            max-width: 100%;
+        }
+
+        .md-preview-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+
+        .md-preview-content th,
+        .md-preview-content td {
+            border: 1px solid #ddd;
+            padding: 6px 13px;
+        }
+
+        .md-preview-content tr:nth-child(2n) {
+            background-color: #f8f8f8;
+        }
+    </style>
+
+    <!-- Lib & Logic -->
+    <script type="module">
+        import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
+        import { MarkdownLogic } from '../assets/js/modules/markdown-logic.js';
+
+        const mdInput = document.getElementById('md-input');
+        const mdPreview = document.getElementById('md-preview');
+        const btnSample = document.getElementById('btn-sample');
+        const btnClear = document.getElementById('btn-clear');
+        const btnCopyHtml = document.getElementById('btn-copy-html');
+
+        const update = () => {
+            const text = mdInput.value;
+            const html = MarkdownLogic.toHtml(marked, text);
+            mdPreview.innerHTML = html;
+        };
+
+        mdInput.addEventListener('input', update);
+
+        btnSample.addEventListener('click', () => {
+            mdInput.value = `# Hello Markdown
+This is a **bold** text and this is *italic*.
+
+## List
+- Item 1
+- Item 2
+- Item 3
+
+## Code
+\`\`\`javascript
+console.log('Hello');
+\`\`\`
+
+> Blockquote here.
+
+[Link to Google](https://google.com)`;
+            update();
+        });
+
+        btnClear.addEventListener('click', () => {
+            mdInput.value = '';
+            update();
+        });
+
+        btnCopyHtml.addEventListener('click', () => {
+            const html = mdPreview.innerHTML;
+            if (!html) return;
+            navigator.clipboard.writeText(html).then(() => {
+                const original = btnCopyHtml.textContent;
+                btnCopyHtml.textContent = 'Copied!';
+                setTimeout(() => btnCopyHtml.textContent = original, 2000);
+            });
+        });
+
+        // Init
+        update();
+    </script>
+</body>
+
+</html>

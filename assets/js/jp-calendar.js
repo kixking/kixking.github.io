@@ -19,7 +19,7 @@ function updateCalendar() {
 
     // Clear existing days (keep headers)
     const headers = calendarGrid.querySelectorAll('.day-header');
-    calendarGrid.innerHTML = '';
+    calendarGrid.textContent = '';
     headers.forEach(h => calendarGrid.appendChild(h));
 
     // Get Holidays for the year

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewContainer = document.getElementById('preview-container');
     const canvas = document.getElementById('preview-canvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    
+
     const colorPreview = document.getElementById('selected-color-preview');
     const hexValue = document.getElementById('value-hex');
     const rgbValue = document.getElementById('value-rgb');
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 固定の表示幅に対してスケールを計算（CSSで100%にしているが内部解像度を確保）
         const displayWidth = previewContainer.clientWidth;
         const scale = displayWidth / currentImg.width;
-        
+
         canvas.width = currentImg.width;
         canvas.height = currentImg.height;
         ctx.drawImage(currentImg, 0, 0);
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         colorPreview.textContent = hex.toUpperCase();
         hexValue.textContent = hex.toUpperCase();
         rgbValue.textContent = rgb;
-        
+
         // テキスト色を背景の明るさに合わせる
         const brightness = getBrightness(hex);
         colorPreview.style.color = brightness > 180 ? '#0f172a' : '#ffffff';
@@ -129,12 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
             [img.width * 0.2, img.height * 0.8],
             [img.width * 0.8, img.height * 0.8],
         ];
-        
+
         const colors = samples.map(([x, y]) => {
             const p = ctx.getImageData(x, y, 1, 1).data;
             return rgbToHex(p[0], p[1], p[2]);
         });
-        
+
         renderPalette(colors);
     }
 
@@ -147,14 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateVariations(color) {
         const { r, g, b } = color;
         const variations = [color.hex];
-        
+
         // 補色
         variations.push(rgbToHex(255 - r, 255 - g, 255 - b));
-        
+
         // 明るさ違い
         variations.push(rgbToHex(Math.min(255, r + 40), Math.min(255, g + 40), Math.min(255, b + 40)));
         variations.push(rgbToHex(Math.max(0, r - 40), Math.max(0, g - 40), Math.max(0, b - 40)));
-        
+
         // 彩度違い的なモドキ
         variations.push(rgbToHex(g, b, r));
 
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderPalette(colors) {
-        paletteGrid.innerHTML = '';
+        paletteGrid.textContent = '';
         colors.forEach(col => {
             const div = document.createElement('div');
             div.className = 'palette-item';
