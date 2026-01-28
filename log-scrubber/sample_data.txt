@@ -1,0 +1,29 @@
+Log Entry 2024-01-28 10:00:01
+--------------------------------------------------------------------------------
+Connection accepted from IP 192.168.1.100 (Forwarded for 10.0.0.5)
+IPv6 Connection: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+User Email: john.doe@example.com (Cc: admin@internal.co.jp)
+Device MAC: 00:1B:44:11:3A:B7
+User Phone: 090-1234-5678 / +1-555-0123
+
+AWS Cleanup Job Started...
+AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+Secret Key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+Payment Processing:
+Card: Visa 4242 4242 4242 4242 (Exp 12/25)
+SSN: 123-45-6789 (US)
+MyNumber: 123456789012 (JP)
+
+API Calls:
+GitHub: ghp_123456789012345678901234567890123456
+Slack: xoxb-123456789012-1234567890123-1234567890abcdef
+Google: AIzaSyD-1234567890123456789012345678901
+
+UUID: 123e4567-e89b-12d3-a456-426614174000
+Bearer Token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD
+... (Sensitive Data Block) ...
+-----END PRIVATE KEY-----

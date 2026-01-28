@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log & Code Anonymizer (ログ匿名化) - Simple Tools</title>
+    <meta
+      name="description"
+      content="IPアドレス、メールアドレス、APIキーなどの機密情報をブラウザ上で安全にマスクします。AIへのコード共有前に最適。"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      .split-view {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 768px) {
+        .split-view {
+          grid-template-columns: 1fr;
+        }
+      }
+      .panel {
+        display: flex;
+        flex-direction: column;
+      }
+      textarea {
+        width: 100%;
+        height: 400px;
+        font-family: monospace;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+      }
+      .options-bar {
+        background: #f5f5f5;
+        color: #333;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+      }
+      .options-group {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .opt-col {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 120px;
+      }
+      .opt-col strong {
+        font-size: 0.85em;
+        text-transform: uppercase;
+        color: #666;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 2px;
+      }
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.9em;
+      }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      .mapping-table {
+        margin-top: 20px;
+        font-size: 0.9em;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .mapping-table th,
+      .mapping-table td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+      }
+      .mapping-container {
+        margin-top: 30px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+      }
+      details > summary {
+        cursor: pointer;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <a href="../index.html" class="home-link">← Home</a>
+        <h1>Log & Code Anonymizer</h1>
+      </div>
+    </header>
+
+    <main class="tool-container">
+      <p class="tool-description">
+        ログやソースコードに含まれる機密情報（IP, Email, API
+        Key等）をブラウザ上で安全に置換します。<br />
+        データはサーバーに送信されません。
+      </p>
+
+      <div class="options-bar">
+        <strong>Target:</strong>
+        <div class="options-group">
+          <div class="opt-col">
+            <strong>Network</strong>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ipv4" checked /> IPv4</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ipv6" checked /> IPv6</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-mac" checked /> MAC</label>
+          </div>
+          <div class="opt-col">
+            <strong>Secrets</strong>
+            <label class="checkbox-label"><input type="checkbox" id="opt-aws" checked /> AWS Keys</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-google" checked /> Google Key</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-github" checked /> GitHub</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-slack" checked /> Slack</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-private" checked /> Private Key</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-bearer" checked /> Tokens</label>
+          </div>
+          <div class="opt-col">
+            <strong>PII / Finances</strong>
+            <label class="checkbox-label"><input type="checkbox" id="opt-email" checked /> Email</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-phone" checked /> Phone</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-cc" checked /> Credit Card</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-ssn" checked /> SSN</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-mynum" checked /> MyNum</label>
+          </div>
+          <div class="opt-col">
+            <strong>Other</strong>
+            <label class="checkbox-label"><input type="checkbox" id="opt-date" checked /> Date</label>
+            <label class="checkbox-label"><input type="checkbox" id="opt-uuid" checked /> UUID</label>
+          </div>
+        </div>
+        <div style="flex-grow: 1"></div>
+        <button id="btn-scrub" class="action-btn primary">
+          Run Anonymizer
+        </button>
+      </div>
+
+      <div class="split-view">
+        <div class="panel">
+          <h3>Original Source</h3>
+          <textarea
+            id="input-text"
+            placeholder="Paste your logs or code here..."
+          ></textarea>
+          <div class="actions" style="margin-top: 10px">
+            <button id="btn-sample" class="action-btn secondary">
+              Load Sample
+            </button>
+            <button id="btn-clear" class="action-btn secondary">Clear</button>
+            <button id="btn-paste" class="action-btn secondary">Paste</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Anonymized Output</h3>
+          <textarea
+            id="output-text"
+            readonly
+            placeholder="Output will appear here..."
+          ></textarea>
+          <div class="actions" style="margin-top: 10px">
+            <button id="btn-copy" class="action-btn success">
+              Copy to Clipboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mapping-container">
+        <details>
+          <summary>Show Replacement Mapping (For verification)</summary>
+          <p style="font-size: 0.8em; color: #888">
+            This mapping is stored only in memory for this session.
+          </p>
+          <table class="mapping-table">
+            <thead>
+              <tr>
+                <th>Original</th>
+                <th>Replacement</th>
+              </tr>
+            </thead>
+            <tbody id="mapping-body">
+              <!-- Rows will be added here -->
+            </tbody>
+          </table>
+        </details>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2026 Simple Tools - Secure Client-Side Processing</p>
+    </footer>
+
+    <script type="module" src="../assets/js/log-scrubber.js"></script>
+  </body>
+</html>
