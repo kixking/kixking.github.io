@@ -508,6 +508,53 @@ select:focus {
   font-size: 1.4rem;
 }
 
+/* --- Article Section (SEO Content) --- */
+.article-section {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--glass-border);
+  text-align: left;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.article-section h2 {
+  font-size: 1.8rem;
+  color: var(--primary-soft);
+  margin-bottom: 1.5rem;
+  margin-top: 3rem;
+}
+
+.article-section h3 {
+  font-size: 1.4rem;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+}
+
+.article-section p {
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+.article-section ul, 
+.article-section ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  color: var(--text-muted);
+}
+
+.article-section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.article-section strong {
+  color: var(--secondary);
+}
+
 /* --- Footer --- */
 footer {
   margin-top: auto;
