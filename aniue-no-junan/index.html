@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>兄上の受難 〜真田信之 胃痛サバイバル〜</title>
+<meta name="description" content="真田家の長男・信之となり、降りかかる無茶振りをかわし胃を守り抜くミニゲーム">
+<meta name="theme-color" content="#8c2f24">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Yusei+Magic&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="game"></canvas>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div id="hud-top">
+      <div id="score-box">
+        <span class="hud-label">石高</span>
+        <span id="score">0</span><span class="hud-unit">石</span>
+      </div>
+      <div id="day-box"><span id="day">受難 一日目</span></div>
+    </div>
+    <div id="gauge-box">
+      <span class="hud-label">胃</span>
+      <div id="gauge-rail"><div id="gauge-fill"></div></div>
+      <span id="gauge-face">😐</span>
+    </div>
+  </div>
+
+  <!-- ぼやき吹き出し -->
+  <div id="bubble" class="hidden"><span id="bubble-text"></span></div>
+
+  <!-- タイトル画面 -->
+  <div id="title-screen" class="screen">
+    <div class="rokumonsen" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <p class="title-sub">真田家長男・胃痛サバイバル</p>
+    <h1 class="title-main"><span>兄</span><span>上</span><span>の</span><span>受</span><span>難</span></h1>
+    <p class="title-desc">
+      父上の無茶振り、弟の暴走、降り注ぐ「黙れ小童ッ!」。<br>
+      長男・信之よ、家のため、胃を守りながら生き延びよ。
+    </p>
+    <div class="howto">
+      <p>← → か 画面スワイプで移動</p>
+      <p><b>🍵 🍙 💌</b> を拾えば胃が癒える / <b>📜 🔥 💢</b> に当たると胃にくる</p>
+    </div>
+    <button id="start-btn" class="brush-btn">出陣(しぶしぶ)</button>
+    <button id="about-btn" class="credit">※ このゲームについて(遊び方・免責)</button>
+  </div>
+
+  <!-- このゲームについて -->
+  <div id="about-modal" class="hidden">
+    <div id="about-card">
+      <h3>このゲームについて</h3>
+
+      <h4>遊び方</h4>
+      <ul>
+        <li>← → キー、または画面のスワイプ/ドラッグで信之が移動</li>
+        <li><b>🍵 茶・🍙 兵糧・💌 稲の文・🪙 六文銭</b> を拾うと石高(スコア)が増え、胃が癒える</li>
+        <li><b>📜 父の策・🔥 弟の暴走・💢 黙れ小童</b> に当たると胃ゲージが減る</li>
+        <li>良い物を連続で拾うとコンボ倍率で石高アップ。取り逃すと途切れる</li>
+        <li>胃ゲージが尽きるとお開き。石高に応じて評定(ランク)が下される</li>
+        <li>最高記録は端末に保存される。目指せ「日の本一の苦労人」</li>
+      </ul>
+
+      <h4>創作パロディの明示</h4>
+      <p>本ゲームは戦国時代の「苦労人の長男」を題材にした個人の二次創作パロディであり、NHK、大河ドラマ「真田丸」、その出演者・制作関係者とは一切関係ありません。登場するイラスト・セリフはすべて創作です。</p>
+
+      <h4>プライバシー</h4>
+      <p>スコア等のデータは端末内(localStorage)にのみ保存され、外部へ送信されません。表示フォントの取得のため Google Fonts(Google社のサーバ)への通信が発生します。</p>
+
+      <h4>免責</h4>
+      <p>史実・ドラマとの相違はすべて演出です。本ゲームの利用により生じたいかなる損害(胃痛を含む)についても、制作者は責任を負いません。</p>
+
+      <button id="about-close" class="brush-btn ghost">閉じる</button>
+    </div>
+  </div>
+
+  <!-- ゲームオーバー画面 -->
+  <div id="over-screen" class="screen hidden">
+    <p class="over-label">評 定</p>
+    <h2 id="over-rank">――</h2>
+    <p id="over-score" class="over-score"></p>
+    <p id="over-quote" class="over-quote"></p>
+    <button id="retry-btn" class="brush-btn">もう一度 耐える</button>
+    <button id="back-btn" class="brush-btn ghost">城に帰る</button>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
