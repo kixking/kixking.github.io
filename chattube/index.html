@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatTube - YouTube & Twitch ライブチャット特化型ビューアーアプリ</title>
+    <meta name="description" content="ChatTubeはYouTube・Twitchのライブチャットだけを表示するAndroidアプリです。配信映像を表示せず、チャット欄だけを軽快・省電力に閲覧・投稿できます。">
+    
+    <!-- OGP Tags -->
+    <meta property="og:title" content="ChatTube - ライブチャット特化型ビューアーアプリ">
+    <meta property="og:description" content="映像はいらない。チャットだけを見る、新しいライブ視聴体験。">
+    <meta property="og:image" content="images/ogp.png">
+    <meta property="og:type" content="website">
+    
+    <!-- CSS Style -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header (SCR-001) -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo-wrapper">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24">
+                        <!-- チャット吹き出しと再生マークを融合したロゴ -->
+                        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 6l7 4-7 4V6z"/>
+                    </svg>
+                </div>
+                <span class="logo-text">ChatTube</span>
+            </a>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#features" class="nav-link">特徴</a></li>
+                    <li><a href="#howto" class="nav-link">使い方</a></li>
+                    <li><a href="#download" class="nav-link">ダウンロード</a></li>
+                </ul>
+            </nav>
+            
+            <button class="nav-toggle" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="section hero-section" id="hero">
+            <div class="container hero-container">
+                <div class="hero-content reveal">
+                    <span class="section-subtitle">Chat-Only Viewer</span>
+                    <h1 class="hero-title">映像はいらない。<br>チャットだけを見る、<br><span class="gradient-text">新しいライブ体験。</span></h1>
+                    <p class="hero-desc">
+                        ChatTube（チャットチューブ）は、YouTube LiveやTwitchのライブチャット（コメント欄）のみを軽快に表示するアプリです。<br>
+                        配信映像を表示しないことで、通信量や端末の発熱を劇的に抑え、快適にチャットの閲覧やコメント投稿を楽しむことができます。
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#download" class="btn btn-primary">使ってみる</a>
+                        <a href="#howto" class="btn btn-secondary">使い方を見る</a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual reveal">
+                    <div class="mockup-container">
+                        <div class="mockup-screen-glow"></div>
+                        <img src="images/mockup.png" alt="ChatTube アプリ画面のモックアップ" class="mockup-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section features-section" id="features">
+            <div class="container">
+                <div class="section-title-wrapper reveal">
+                    <span class="section-subtitle">Features</span>
+                    <h2 class="section-title">ライブ配信をもっと軽快に、快適に</h2>
+                </div>
+                
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5zm4 4h-2v-5h2v5zm0-6h-2V7h2v2z"/></svg>
+                        </div>
+                        <h3>チャット表示に特化</h3>
+                        <p>映像データを読み込まないため、通信量を最大90%以上削減。ギガの消費を気にせず、バックグラウンドでのチャット閲覧や、ながら読みに最適です。端末の発熱やバッテリー消費も防ぎます。</p>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        </div>
+                        <h3>チャンネルお気に入り</h3>
+                        <p>YouTubeのチャンネルURLを登録すれば、毎回変わる配信URLを探す必要はありません。タップ時にライブ配信中なら、自動的にその配信のチャットを検知して接続します。</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                        </div>
+                        <h3>配信状況の可視化</h3>
+                        <p>お気に入り一覧で、登録したチャンネルが現在配信中（🔴）かオフライン（⚫）かをリアルタイムで確認できます。最新の状態にはワンタップでいつでも更新可能です。</p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                        </div>
+                        <h3>没入（イマーシブ）モード</h3>
+                        <p>チャット表示中は、数秒後にヘッダーが自動的に隠れるため、限られた画面スペースを最大限に活用してチャットを広く表示できます。画面上部をタップすればすぐにヘッダーが戻ります。</p>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+                        </div>
+                        <h3>コメント投稿に対応</h3>
+                        <p>チャットの閲覧だけでなく、Google（YouTube）やTwitchのアカウントで安全にログインし、アプリから直接チャットへコメントを投稿することができます。ログアウトも設定から簡単に行えます。</p>
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="feature-card reveal">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                        </div>
+                        <h3>小窓(PiP)やテーマのカスタマイズ</h3>
+                        <p>ダークモードとライトモードの切り替えはもちろん、フォントサイズやチャット欄の上下左右の余白を調整可能。画面の端が少し隠れてしまうようなピクチャー・イン・ピクチャー(PiP)小窓表示や特殊な画面形状でも快適に使えます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How To Use Section -->
+        <section class="section howto-section" id="howto">
+            <div class="container">
+                <div class="section-title-wrapper reveal">
+                    <span class="section-subtitle">How To Use</span>
+                    <h2 class="section-title">シンプルな3つのステップ</h2>
+                </div>
+                
+                <div class="howto-steps">
+                    <!-- Step 1 -->
+                    <div class="howto-step reveal">
+                        <div class="step-num">01</div>
+                        <div class="step-content">
+                            <h3>配信のチャットを登録</h3>
+                            <p>画面上部の「＋」ボタンから、YouTubeやTwitchの配信URL、またはYouTubeチャンネルURLを貼り付けてブックマークに追加します。YouTubeやTwitchの公式アプリの「共有」メニューから、ChatTubeを選んで直接追加することも可能です。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="howto-step reveal">
+                        <div class="step-num">02</div>
+                        <div class="step-content">
+                            <h3>配信状態をチェックして開く</h3>
+                            <p>ブックマーク一覧では、チャンネルがライブ配信中なら「🔴配信中」のステータスが表示されます。タップするだけでチャット画面が軽快に開きます。チャンネルURLの登録なら、配信ごとに変わるURLを自動で追いかけて現在のライブチャットを開きます。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="howto-step reveal">
+                        <div class="step-num">03</div>
+                        <div class="step-content">
+                            <h3>ログインしてコメント投稿</h3>
+                            <p>チャットを読むだけでなく、画面上部のログインアイコンからYouTube（Google）やTwitchにログインすることで、チャットへ直接コメントを書き込むことができます。ログイン情報は端末内に安全に保持されます。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <section class="section download-section" id="download">
+            <div class="container download-container reveal">
+                <div class="download-content">
+                    <h2 class="download-title">さあ、ChatTubeをはじめよう</h2>
+                    <p class="download-desc">
+                        通信量とバッテリーを気にせず、ライブ配信のチャット欄をいつでもどこでも軽快にチェック。<br>
+                        Android端末向けに今すぐ無料でダウンロードできます。
+                    </p>
+                    <div class="download-buttons">
+                        <!-- Google Play風ボタンのSVGおよびテキスト -->
+                        <a href="https://play.google.com/store/apps/details?id=com.kixking.chatview_youtube_v3" class="btn-googleplay">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3 5.277c0-.987.8-1.543 1.583-1.077l15.111 8.97c.723.43.723 1.524 0 1.954l-15.111 8.97C3.8 24.562 3 24.006 3 23.02V5.277z"/>
+                            </svg>
+                            <span class="btn-googleplay-text">
+                                <span class="small">GET IT ON</span>
+                                <span class="large">Google Play</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <div class="logo-wrapper">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 6l7 4-7 4V6z"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">ChatTube</span>
+                </div>
+                <p class="footer-desc">YouTube・Twitch ライブチャット特化型ビューアー</p>
+            </div>
+            
+            <div class="footer-right">
+                <ul class="footer-links">
+                    <li><a href="privacy.html" class="footer-link">プライバシーポリシー</a></li>
+                    <li><a href="#hero" class="footer-link">トップへ戻る</a></li>
+                </ul>
+                <p class="copyright">&copy; 2026 ChatTube. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
